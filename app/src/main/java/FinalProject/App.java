@@ -5,11 +5,12 @@ import java.util.Scanner;
 import FinalProject.Controller.LoginController;
 import FinalProject.DB.Database;
 import FinalProject.Model.Login;
+import FinalProject.Model.Data.User;
 import FinalProject.View.LoginView;
 
 public class App {
     String greet = """
-            Welcome to Waste Management
+            Welcome to School Material and Resource Center
             [1] Login
             [2] Register
             [3] Exit
@@ -19,6 +20,7 @@ public class App {
     Login login;
     LoginView loginView;
     LoginController loginController;
+    User currUser;
 
     App() {
 
@@ -36,7 +38,7 @@ public class App {
  
         switch (choice) {
             case 1:
-                // TODO Login
+                currUser = loginController.showLogin();
                 break;
             case 2:
                 //TODO Register

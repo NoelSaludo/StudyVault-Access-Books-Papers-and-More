@@ -1,26 +1,16 @@
 package FinalProject.Model.Data;
 
 public class User {
-    private int id;
+    private double balance;
     private String firstName;
     private String lastName;
-    private String pass;
     private String username;
 
-    public User(int id, String firstName, String lastName, String pass, String username) {
-        this.id = id;
+    public User(double balance, String firstName, String lastName, String username) {
+        this.balance = balance;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.pass = pass;
         this.username = username;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getFirstName() {
@@ -29,14 +19,6 @@ public class User {
 
     public void setFirstName(String user) {
         this.firstName = user;
-    }
-
-    public String getPass() {
-        return pass;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
     }
 
     public String getUsername() {
@@ -53,5 +35,13 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 }
