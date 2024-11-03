@@ -1,16 +1,18 @@
 package FinalProject.Model.Data;
 
 public class User {
-    private double balance;
     private String firstName;
     private String lastName;
     private String username;
+    private double balance;
+    private String password;
 
-    public User(double balance, String firstName, String lastName, String username) {
-        this.balance = balance;
+
+    public User(String firstName, String lastName, String username, double balance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
+        this.balance = balance;
     }
 
     public String getFirstName() {
