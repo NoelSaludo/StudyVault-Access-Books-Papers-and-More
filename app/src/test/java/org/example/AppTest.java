@@ -6,8 +6,19 @@ package org.example;
 import org.junit.jupiter.api.Test;
 
 import FinalProject.App;
+import FinalProject.Model.Login;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
+
+//    @Test
+//    public void TestFindUser() {
+//        try {
+//        Login login = new Login("","","");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        aassertEquals();
+//    }
 }

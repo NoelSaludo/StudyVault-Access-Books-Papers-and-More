@@ -15,18 +15,19 @@ public class App {
             [2] Register
             [3] Exit
             """;
+    String url="jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
     int choice;
     Scanner in = new Scanner(System.in);
     Login login;
     LoginView loginView;
     LoginController loginController;
     User currUser;
+    Database db;
 
     App() {
-
-        // login variables
         try {
-        login = new Login("jdbc:mysql://localhost:3306/testdb","FinalProject","FinalProject123");
+        db = new Database(url,user,password);
+        login = new Login(db);
         } catch (Exception e) {
             e.printStackTrace();
         }

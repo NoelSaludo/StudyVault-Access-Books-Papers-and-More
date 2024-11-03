@@ -6,21 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public abstract class Database {
+public  class Database {
     private Connection con;
 
     public Database(String url, String user, String pass) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         this.con = DriverManager.getConnection(url, user, pass);
     }
-
-    /**
-     * inserts a User in the table
-     * 
-     * @param name, pass
-     * @return int
-     */
-    public abstract int insertUser(String name, String pass);
 
     /**
      * This function finds a user in the user account by SQL query to find the user using the name
