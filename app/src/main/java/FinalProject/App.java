@@ -15,9 +15,9 @@ public class App {
             [2] Register
             [3] Exit
             """;
-    String url="jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
+    String url = "jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
     int choice;
-    Scanner in = new Scanner(System.in);
+    Scanner in;
     Login login;
     LoginView loginView;
     LoginController loginController;
@@ -25,9 +25,10 @@ public class App {
     Database db;
 
     App() {
+        in = new Scanner(System.in);
         try {
-        db = new Database(url,user,password);
-        login = new Login(db);
+            db = new Database(url, user, password);
+            login = new Login(db);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -36,13 +37,21 @@ public class App {
 
         System.out.println(greet);
         choice = in.nextInt();
- 
+
+    }
+
+    public void run() {
         switch (choice) {
             case 1:
                 currUser = loginController.showLogin();
+                if (currUser != null) {
+                    // TODO write the client
+                    System.out.println("Login");
+                }
                 break;
             case 2:
-                //TODO Register
+                // TODO Register
+
                 break;
             case 3:
                 System.exit(0);
@@ -54,6 +63,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new App();
+        App app = new App();
+        app.run();
     }
 }

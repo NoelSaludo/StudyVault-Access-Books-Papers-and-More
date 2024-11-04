@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public  class Database {
+import FinalProject.Model.Data.User;
+
+public class Database {
     private Connection con;
 
     public Database(String url, String user, String pass) throws SQLException, ClassNotFoundException {
@@ -15,26 +17,23 @@ public  class Database {
     }
 
     /**
-     * This function finds a user in the user account by SQL query to find the user using the name
+     * This function finds a user in the user account by SQL query to find the user
+     * using the name
+     * 
      * @throws SQLException
      * @return ResultSet
-     * */
+     */
     public ResultSet findByName(String name) throws SQLException {
         ResultSet rs;
-        String query = "SELECT * FROM user_account WHERE user_account.username = ?";
+        String query = "SELECT * FROM user_account WHERE username = ?";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, name);
         rs = stm.executeQuery();
         rs.next();
         return rs;
     }
-     public Boolean findInLearner(int id) throws SQLException {
-        Boolean res = null;
-        String query = "SELECT * FROM user_account INNER JOIN learner ON user_account.id=learner.id WHERE user_account.id = ?";
-        PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, id);
-        res = stm.execute();
-        return res;
+
+    public void InsertUser(User newUser) {
     }
 
     /**

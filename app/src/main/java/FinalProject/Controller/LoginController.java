@@ -16,22 +16,34 @@ public class LoginController {
     }
 
     /**
-     * It returns a user that is validated to exist in the database and determines if it is a Learner or a Educator
+     * It returns a user that is validated to exist in the database and determines
+     * if it is a Learner or a Educator
+     * 
      * @return User
-     * */
+     */
     public User showLogin() {
-        User loggingUser;
-        String username, password;
+        User loggingUser = null;
         Scanner in = new Scanner(System.in);
-        this.view.showUsername();
-        username = in.next();
-        this.view.showPassword();
-        password = in.next();
-        loggingUser = this.login.findUser(username, password);
-        System.out.println(loggingUser.getClass());
+        while (loggingUser == null) {
+            try {
+                String username, password;
+                System.out.println("Enter 0 to cancel login");
+                this.view.showUsername();
+                username = in.next();
+                this.view.showPassword();
+                password = in.next();
+                if (username.equals("0") || password.equals("0"))
+                    break;
+                loggingUser = this.login.findUser(username, password);
+                if (loggingUser == null) {
+                    System.out.println("Login error try again");
+                }
+            } catch (Exception e) {
+                System.out.println("Unexcpected Error in showLogin");
+            }
+        }
         in.close();
         return loggingUser;
-
     }
 
 }

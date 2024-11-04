@@ -4,44 +4,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import FinalProject.DB.Database;
-import FinalProject.Model.Data.Educator;
-import FinalProject.Model.Data.Learner;
 import FinalProject.Model.Data.User;
 
 public class Login {
-    private User currUser;
     Database db;
+    private int id;
+    private String username, password, firstName, lastName;
 
     public Login(Database db) throws SQLException, ClassNotFoundException {
         this.db = db;
-    }
-
-    public User getCurrUser() {
-        return currUser;
-    }
-
-    public void setCurrUser(User currUser) {
-        this.currUser = currUser;
     }
 
     public User findUser(String name, String password) {
         User user = null;
         try {
             ResultSet rs = db.findByName(name);
-            Double balance = rs.getDouble("balance");
-            String firstName = rs.getString("first_name"), lastName = rs.getString("last_name");
-            if (rs.getString("password").equals(password)) {
-                if (db.findInLearner(rs.getInt("id"))) {
-                    user = new Learner(balance, firstName, lastName, name);
-                } else {
-                    user = new Educator(balance, firstName, lastName, name);
-                }
+            this.id = rs.getInt("user_id");
+            this.username = rs.getString("username");
+            this.password = rs.getString("password");
+            this.firstName = rs.getString("first_Name");
+            this.lastName = rs.getString("last_name");
+            if (this.password.equals(password)) {
+                user = new User(this.id, this.firstName, this.lastName, this.username, this.password);
+            } else {
+                System.out.println("Incorrect Password");
             }
         } catch (SQLException e) {
-            System.out.println("Username not found");
-            e.printStackTrace();
+            System.out.println("User not Found");
+        } catch (Exception e) {
+            System.out.println("Unexcpected Error in findUser");
         }
-
         return user;
     }
 }

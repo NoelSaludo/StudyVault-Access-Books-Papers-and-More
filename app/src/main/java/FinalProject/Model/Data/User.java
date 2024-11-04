@@ -1,18 +1,26 @@
 package FinalProject.Model.Data;
 
 public class User {
+    private int id;
     private String firstName;
     private String lastName;
     private String username;
-    private double balance;
     private String password;
 
-
-    public User(String firstName, String lastName, String username, double balance) {
+    public User(int id, String firstName, String lastName, String username, String password) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
-        this.balance = balance;
+        this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -39,11 +47,12 @@ public class User {
         this.lastName = lastName;
     }
 
-    public double getBalance() {
-        return balance;
+    public String getPassword() {
+        return password;
     }
 
-    public void setBalance(double balance) {
-        this.balance = balance;
+    public void setPassword(String password) {
+        this.password = password;
     }
+
 }
