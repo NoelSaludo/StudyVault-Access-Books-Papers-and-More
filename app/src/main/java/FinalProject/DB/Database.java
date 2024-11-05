@@ -33,7 +33,16 @@ public class Database {
         return rs;
     }
 
-    public void InsertUser(User newUser) {
+    public Boolean InsertUser(User newUser) throws SQLException {
+        String query = """
+            INSERT INTO user_account(first_name, last_name, username, password) VALUES (?,?,?,?)
+        """;
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, newUser.getFirstName());
+        stm.setString(2,newUser.getLastName());
+        stm.setString(3,newUser.getUsername());
+        stm.setString(4,newUser.getPassword());
+        return stm.execute();
     }
 
     /**
