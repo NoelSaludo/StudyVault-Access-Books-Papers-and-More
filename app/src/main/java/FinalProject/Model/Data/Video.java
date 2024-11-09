@@ -1,4 +1,4 @@
-﻿package FinalProject.Model.Data;
+package FinalProject.Model.Data;
 
 import java.util.Date;
 
