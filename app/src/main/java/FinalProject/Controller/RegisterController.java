@@ -9,15 +9,13 @@ import FinalProject.View.RegisterView;
 public class RegisterController {
     private Register register;
     private RegisterView view;
-    Scanner in;
 
     public RegisterController(Register register, RegisterView view) {
         this.register = register;
         this.view = view;
-        in = new Scanner(System.in);
     }
 
-    public void Register() {
+    public void Register(Scanner in) {
         User newUser = new User();
         view.showGreetings();
         view.showFirstname();

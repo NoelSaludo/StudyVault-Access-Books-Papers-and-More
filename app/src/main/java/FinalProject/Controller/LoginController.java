@@ -9,12 +9,10 @@ import FinalProject.View.LoginView;
 public class LoginController {
     Login login;
     LoginView view;
-    Scanner in;
- 
+
     public LoginController(Login login, LoginView view) {
         this.login = login;
         this.view = view;
-        in = new Scanner(System.in);
     }
 
     /**
@@ -23,7 +21,7 @@ public class LoginController {
      * 
      * @return User
      */
-    public User showLogin() {
+    public User showLogin(Scanner in) {
         User loggingUser = null;
         while (loggingUser == null) {
             try {
