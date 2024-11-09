@@ -61,8 +61,9 @@ public class App {
     public void run() {
         Scanner in = new Scanner(System.in);
         while (currUser == null) {
-            System.out.println(greet);
+            System.out.print(greet);
             int choice = in.nextInt();
+            in.nextLine();
 
             switch (choice) {
                 case 1:

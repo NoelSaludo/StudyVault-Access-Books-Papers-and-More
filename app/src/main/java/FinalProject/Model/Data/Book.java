@@ -28,5 +28,8 @@ public class Book extends Material {
         this.publisher = publisher;
     }
 
-
+    @Override
+    public String toString() {
+        return super.toString().concat(" | ISBN: " + ISBN).concat(" | Publisher: " + publisher);
+    }
 }

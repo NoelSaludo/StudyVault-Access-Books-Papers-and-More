@@ -68,8 +68,8 @@ public abstract class Material {
 
     @Override
     public String toString() {
-        return "id: ".concat(String.valueOf(id)).concat("\ntitle: ").concat(title).concat("\nauthor: ").concat(author)
-                .concat("\nlanguage: ").concat(language).concat("\nurl: ").concat(url).concat("\npublishDate")
+        return "id: ".concat(String.valueOf(id)).concat(" | title: ").concat(title).concat(" | author: ").concat(author)
+                .concat(" | language: ").concat(language).concat(" | url: ").concat(url).concat(" | publishDate: ")
                 .concat(String.valueOf(publishedDate));
     }
 }
