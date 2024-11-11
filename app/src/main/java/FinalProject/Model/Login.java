@@ -18,22 +18,18 @@ public class Login {
     public User findUser(String name, String password) {
         User user = null;
         try {
-            ResultSet rs = db.findByName(name);
-            this.id = rs.getInt("user_id");
-            this.username = rs.getString("username");
-            this.password = rs.getString("password");
-            this.firstName = rs.getString("first_Name");
-            this.lastName = rs.getString("last_name");
-            if (this.password.equals(password)) {
-                user = new User(this.id, this.firstName, this.lastName, this.username, this.password);
+            int id = db.findByName("user_account", name);
+            user = db.findUser(id);
+            if (user.getPassword().equals(password) && user != null) {
+                return user;
             } else {
                 System.out.println("Incorrect Password");
             }
         } catch (SQLException e) {
-            System.out.println("User not Found");
+            e.printStackTrace();
         } catch (Exception e) {
             System.out.println("Unexcpected Error in findUser");
         }
-        return user;
+        return null;
     }
 }

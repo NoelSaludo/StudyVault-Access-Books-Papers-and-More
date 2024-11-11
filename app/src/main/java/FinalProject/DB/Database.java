@@ -5,8 +5,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import FinalProject.Model.Data.Book;
@@ -29,14 +29,30 @@ public class Database {
      * @return ResultSet
      * @throws SQLException
      */
-    public ResultSet findByName(String name) throws SQLException {
+    public int findByName(String table, String name) throws SQLException {
         ResultSet rs;
-        String query = "SELECT * FROM user_account WHERE username = ?";
+        String query = "SELECT * FROM " + table + " WHERE username = ?";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, name);
         rs = stm.executeQuery();
-        if (!rs.next()) System.out.println("No such user");
-        return rs;
+        if (!rs.next()) {
+            return -1;
+        }
+        return rs.getInt("id");
+    }
+
+    public User findUser(int id) throws SQLException {
+        String query = "SELECT * FROM user_account WHERE id = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+
+        if (!rs.next()) {
+            System.out.println("No such user");
+            return null;
+        }
+
+        return new User(id, rs.getString("first_name"), rs.getString("last_name"), rs.getString("username"), rs.getString("password"));
     }
 
     /**
@@ -62,7 +78,7 @@ public class Database {
         List<Material> materials = new ArrayList<>();
         String query = "SELECT * FROM material_table WHERE material_title LIKE ?";
         PreparedStatement stm = con.prepareStatement(query);
-        name = "%"+name+"%";
+        name = "%" + name + "%";
         stm.setString(1, name);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
@@ -72,8 +88,27 @@ public class Database {
         return materials;
     }
 
+    public void addMaterial(Material newMaterial) throws SQLException {
+        String query = "INSERT INTO material_table(material_title, material_author, material_language, material_url, material_published_date) VALUES (?,?,?,?,?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setString(1, newMaterial.getTitle());
+        stm.setString(2, newMaterial.getAuthor());
+        stm.setString(3, newMaterial.getLanguage());
+        stm.setString(4, newMaterial.getUrl());
+        stm.setDate(5, new Date(newMaterial.getPublishedDate().getTime()));
+        stm.execute();
+    }
+
+    public int getMatID(String title) throws SQLException {
+        return 0;
+    }
+
+    public Boolean addBook(int id) {
+        return null;
+    }
+
     // Private methods
-    private Material whichMaterial (ResultSet rs) throws SQLException {
+    private Material whichMaterial(ResultSet rs) throws SQLException {
         Material material = null;
         if (rs.next()) {
             int mat_id = rs.getInt("material_id");
@@ -112,4 +147,5 @@ public class Database {
         ResultSet rs = stm.executeQuery();
         return whichMaterial(rs);
     }
+
 }
