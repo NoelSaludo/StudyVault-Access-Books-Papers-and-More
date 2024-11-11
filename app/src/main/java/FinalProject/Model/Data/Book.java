@@ -5,6 +5,10 @@ import java.util.Date;
 public class Book extends Material {
     private String publisher, ISBN;
 
+    public Book() {
+        super();
+    }
+
     public Book(int id, String title, String author, String language, String url, Date publishedDate, String iSBN,
                 String publisher) {
         super(id, title, author, language, url, publishedDate);

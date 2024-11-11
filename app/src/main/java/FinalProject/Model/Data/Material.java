@@ -11,6 +11,7 @@ public abstract class Material {
     private String title, author, language, url;
     private Date publishedDate;
 
+
     public Material(int id, String title, String author, String language, String url, Date publishedDate) {
         this.id = id;
         this.title = title;
@@ -18,6 +19,10 @@ public abstract class Material {
         this.language = language;
         this.url = url;
         this.publishedDate = publishedDate;
+    }
+
+    public Material() {
+
     }
 
     public int getId() {

@@ -14,10 +14,14 @@ public class Register {
 
     public void registerUser(User user) {
         try {
-            db.InsertUser(user);
+            if (db.InsertUser(user)) {
+                System.out.println("User registered successfully");
+            } else {
+                System.out.println("User failed to register");
+            }
         } catch (SQLException e) {
-            System.out.println("Insert failed. Unexpected SQLException Error");
+            e.printStackTrace();
         }
-        
+
     }
 }

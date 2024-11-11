@@ -29,9 +29,9 @@ public class Database {
      * @return ResultSet
      * @throws SQLException
      */
-    public int findByName(String table, String name) throws SQLException {
+    public int findByName(String table, String column ,String name) throws SQLException {
         ResultSet rs;
-        String query = "SELECT * FROM " + table + " WHERE username = ?";
+        String query = "SELECT * FROM " + table + " WHERE " + column + " = ? ";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, name);
         rs = stm.executeQuery();
@@ -82,49 +82,51 @@ public class Database {
         stm.setString(1, name);
         ResultSet rs = stm.executeQuery();
         while (rs.next()) {
-            int id = rs.getInt("material_id");
+            int id = rs.getInt("id");
             materials.add(getMaterial(id));
         }
         return materials;
     }
 
-    public void addMaterial(Material newMaterial) throws SQLException {
+    public void addMaterial(String Title, String Author, String language, String url, Date publishedDate) throws SQLException {
         String query = "INSERT INTO material_table(material_title, material_author, material_language, material_url, material_published_date) VALUES (?,?,?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
-        stm.setString(1, newMaterial.getTitle());
-        stm.setString(2, newMaterial.getAuthor());
-        stm.setString(3, newMaterial.getLanguage());
-        stm.setString(4, newMaterial.getUrl());
-        stm.setDate(5, new Date(newMaterial.getPublishedDate().getTime()));
+        stm.setString(1, Title);
+        stm.setString(2, Author);
+        stm.setString(3,  language);
+        stm.setString(4, url);
+        stm.setDate(5, publishedDate);
         stm.execute();
     }
 
-    public int getMatID(String title) throws SQLException {
-        return 0;
-    }
+    public Boolean addBook(int id, String isbn, String publisher) throws SQLException {
+        String query = "INSERT INTO book_table(material_id,isbn,publisher) VALUES (?,?,?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        stm.setString(2, isbn);
+        stm.setString(3, publisher);
 
-    public Boolean addBook(int id) {
-        return null;
+        return stm.execute();
     }
 
     // Private methods
     private Material whichMaterial(ResultSet rs) throws SQLException {
         Material material = null;
         if (rs.next()) {
-            int mat_id = rs.getInt("material_id");
+            int mat_id = rs.getInt("id");
             String title = rs.getString("material_title"),
                     author = rs.getString("material_author"),
                     language = rs.getString("material_language"),
                     url = rs.getString("material_url");
             Date published_date = rs.getDate("material_published_date");
 
-            if (rs.getInt("book_id") != 0) {
+            if (rs.getInt("id") != 0) {
                 material = new Book(
                         mat_id, title, author, language, url, published_date,
                         rs.getString("isbn"),
                         rs.getString("publisher")
                 );
-            } else if (rs.getInt("paper_id") != 0) {
+            } else if (rs.getInt("id") != 0) {
                 material = new Paper(
                         mat_id, title, author, language, url, published_date,
                         rs.getString("doi"),
@@ -138,9 +140,9 @@ public class Database {
     private Material getMaterial(int id) throws SQLException {
         String query = """
                 SELECT * FROM material_table
-                LEFT JOIN book_table BT ON material_table.material_id = bt.material_id
-                LEFT JOIN paper_table PT ON material_table.material_id = pt.material_id
-                WHERE material_table.material_id = ?;
+                LEFT JOIN book_table BT ON material_table.id = bt.id
+                LEFT JOIN paper_table PT ON material_table.id = pt.id
+                WHERE material_table.id = ?;
                 """;
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);

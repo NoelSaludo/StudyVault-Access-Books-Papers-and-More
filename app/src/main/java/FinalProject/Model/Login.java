@@ -18,7 +18,7 @@ public class Login {
     public User findUser(String name, String password) {
         User user = null;
         try {
-            int id = db.findByName("user_account", name);
+            int id = db.findByName("user_account", "username",name);
             user = db.findUser(id);
             if (user.getPassword().equals(password) && user != null) {
                 return user;

@@ -35,4 +35,21 @@ public class ClientView {
             System.out.println(item);
         }
     }
+
+    public void addMatStart() {
+        System.out.println("To add new materials you just simply have to fill out the \nnecessary information of the materials you wish to upload");
+    }
+
+    public void matType() {
+        String types = """
+                [1] Book
+                [2] Paper
+                [3] Video
+                [x] cancel""";
+        System.out.println(types);
+    }
+
+    public void Label(String s) {
+        System.out.print(s);
+    }
 }
