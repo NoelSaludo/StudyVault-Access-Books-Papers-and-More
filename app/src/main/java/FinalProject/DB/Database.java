@@ -99,14 +99,13 @@ public class Database {
         stm.execute();
     }
 
-    public Boolean addBook(int id, String isbn, String publisher) throws SQLException {
+    public void addBook(int id, String isbn, String publisher) throws SQLException {
         String query = "INSERT INTO book_table(material_id,isbn,publisher) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
         stm.setString(2, isbn);
         stm.setString(3, publisher);
-
-        return stm.execute();
+        stm.execute();
     }
 
     // Private methods

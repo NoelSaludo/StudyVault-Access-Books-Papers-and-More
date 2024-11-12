@@ -35,16 +35,15 @@ public class Client {
         return  user.getUsername();
     }
 
-    public Boolean addBook(Book book) {
-        Boolean result = false;
+    public void addBook(Book book) {
         try {
             db.addMaterial(book.getTitle(), book.getAuthor(), book.getLanguage(),book.getUrl(), new Date(book.getPublishedDate().getTime()));
             book.setId(db.findByName("material_table","material_title",book.getTitle()));
-            result = db.addBook(book.getId(), book.getISBN(), book.getPublisher());
-            return result;
+            db.addBook(book.getId(), book.getISBN(), book.getPublisher());
+            System.out.println("Book added");
         } catch (SQLException e) {
+            System.out.println("Book was not added");
             System.out.println(e.getMessage());
         }
-        return result;
     }
 }

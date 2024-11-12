@@ -64,8 +64,7 @@ public class ClientController {
             in.nextLine();
             switch (choice) {
                 case '1':
-                    if (!addBook(in)) System.out.println("Book added");
-                    else System.out.println("Book not added");
+                    addBook(in);
                     break;
                 case '2':
 //                    addPaper(in);
@@ -81,7 +80,7 @@ public class ClientController {
         }
     }
 
-    private Boolean addBook(Scanner in) {
+    private void addBook(Scanner in) {
         Book book = new Book();
         String[] labels = {"Publisher: ","ISBN: ","URL: ","Published Date (dd/MM/yyyy): ","Language: ","Author: ","Title: "};
         String[] data = new String[7];
@@ -101,7 +100,7 @@ public class ClientController {
         book.setUrl(data[2]);
         book.setISBN(data[1]);
         book.setPublisher(data[0]);
-        return client.addBook(book);
+        client.addBook(book);
     }
 
     private void findMat(Scanner in) {
