@@ -1,6 +1,7 @@
 package FinalProject;
 
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 import FinalProject.Controller.ClientController;
 import FinalProject.Controller.LoginController;
@@ -49,7 +50,7 @@ public class App {
             reg = new Register(db);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         loginView = new LoginView();
         loginController = new LoginController(login, loginView);

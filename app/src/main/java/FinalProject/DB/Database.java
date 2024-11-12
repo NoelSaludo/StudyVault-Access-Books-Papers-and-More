@@ -108,6 +108,15 @@ public class Database {
         stm.execute();
     }
 
+    public void addPaper(int id, String doi, String journalName) throws SQLException {
+        String query = "INSERT INTO paper_table(material_id,doi,journal_name) VALUES (?,?,?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        stm.setString(2, doi);
+        stm.setString(3, journalName);
+        stm.execute();
+    }
+
     // Private methods
     private Material whichMaterial(ResultSet rs) throws SQLException {
         Material material = null;
@@ -119,28 +128,31 @@ public class Database {
                     url = rs.getString("material_url");
             Date published_date = rs.getDate("material_published_date");
 
-            if (rs.getInt("id") != 0) {
+            if (rs.getString("isbn") != null) {
                 material = new Book(
                         mat_id, title, author, language, url, published_date,
                         rs.getString("isbn"),
                         rs.getString("publisher")
                 );
-            } else if (rs.getInt("id") != 0) {
+                System.out.println("created book");
+            } else if (rs.getString("doi") != null) {
                 material = new Paper(
                         mat_id, title, author, language, url, published_date,
                         rs.getString("doi"),
                         rs.getString("journal_name")
                 );
+                System.out.println("created paper");
             }
         }
+        assert material != null;
         return material;
     }
 
     private Material getMaterial(int id) throws SQLException {
         String query = """
                 SELECT * FROM material_table
-                LEFT JOIN book_table BT ON material_table.id = bt.id
-                LEFT JOIN paper_table PT ON material_table.id = pt.id
+                LEFT JOIN book_table BT ON material_table.id = bt.material_id
+                LEFT JOIN paper_table PT ON material_table.id = pt.material_id
                 WHERE material_table.id = ?;
                 """;
         PreparedStatement stm = con.prepareStatement(query);

@@ -31,7 +31,8 @@ public class ClientView {
 
     public void showFoundMats(List<Material> materials) {
         for (int i = 1; i <= materials.size(); i++) {
-            String item = String.format("[%d] %s\n",i,materials.get(i-1).toString());
+            System.out.println(materials.get(i-1).getClass());
+            String item = String.format("[%d] %s\n",i,materials.get(i-1));
             System.out.println(item);
         }
     }

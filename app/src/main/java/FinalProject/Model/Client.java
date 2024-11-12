@@ -3,6 +3,7 @@ package FinalProject.Model;
 import FinalProject.DB.Database;
 import FinalProject.Model.Data.Book;
 import FinalProject.Model.Data.Material;
+import FinalProject.Model.Data.Paper;
 import FinalProject.Model.Data.User;
 
 import java.sql.SQLException;
@@ -32,18 +33,30 @@ public class Client {
     }
 
     public String getUsername() {
-        return  user.getUsername();
+        return user.getUsername();
     }
 
     public void addBook(Book book) {
         try {
-            db.addMaterial(book.getTitle(), book.getAuthor(), book.getLanguage(),book.getUrl(), new Date(book.getPublishedDate().getTime()));
-            book.setId(db.findByName("material_table","material_title",book.getTitle()));
+            db.addMaterial(book.getTitle(), book.getAuthor(), book.getLanguage(), book.getUrl(), new Date(book.getPublishedDate().getTime()));
+            book.setId(db.findByName("material_table", "material_title", book.getTitle()));
             db.addBook(book.getId(), book.getISBN(), book.getPublisher());
             System.out.println("Book added");
         } catch (SQLException e) {
             System.out.println("Book was not added");
             System.out.println(e.getMessage());
         }
+    }
+
+    public void addPaper(Paper paper) {
+        try {
+            db.addMaterial(paper.getTitle(), paper.getAuthor(), paper.getLanguage(), paper.getUrl(), new Date(paper.getPublishedDate().getTime()));
+            paper.setId(db.findByName("material_table", "material_title", paper.getTitle()));
+            db.addPaper(paper.getId(),paper.getDOI(),paper.getJournalName());
+        } catch (SQLException e) {
+            System.out.println("Paper was not added");
+            System.out.println(e.getMessage());
+        }
+
     }
 }

@@ -4,6 +4,7 @@ package FinalProject.Controller;
 import FinalProject.Model.Client;
 import FinalProject.Model.Data.Book;
 import FinalProject.Model.Data.Material;
+import FinalProject.Model.Data.Paper;
 import FinalProject.View.ClientView;
 
 import java.sql.Date;
@@ -50,14 +51,8 @@ public class ClientController {
     }
 
     private void addMat(Scanner in) {
-        /*
-         * Material:
-         *   -Type
-         *   -Title
-         *   -Author
-         *
-         * */
-        dance: while (true) {
+        dance:
+        while (true) {
             view.addMatStart();
             view.matType();
             char choice = in.next().charAt(0);
@@ -67,7 +62,7 @@ public class ClientController {
                     addBook(in);
                     break;
                 case '2':
-//                    addPaper(in);
+                    addPaper(in);
                     break;
                 case '3':
                     break;
@@ -80,27 +75,59 @@ public class ClientController {
         }
     }
 
+    private void addPaper(Scanner in) {
+        Paper paper = new Paper();
+        String[] labels = {"Journal Name: ", "DOI: ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
+        String[] data = getData(labels, in);
+        if (data == null) return;
+        paper.setTitle(data[6]);
+        paper.setAuthor(data[5]);
+        paper.setLanguage(data[4]);
+        try {
+            paper.setPublishedDate(strToSqlDate(data[3]));
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        paper.setUrl(data[2]);
+        paper.setDOI(data[1]);
+        paper.setJournalName(data[0]);
+        client.addPaper(paper);
+    }
+
     private void addBook(Scanner in) {
         Book book = new Book();
-        String[] labels = {"Publisher: ","ISBN: ","URL: ","Published Date (dd/MM/yyyy): ","Language: ","Author: ","Title: "};
-        String[] data = new String[7];
-        for (int i = labels.length-1; i >= 0; i--) {
-            view.Label(labels[i]);
-            data[i] = in.nextLine();
-        }
+        String[] labels = {"Publisher: ", "ISBN: ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
+        String[] data;
+        data = getData(labels, in);
+        if (data == null) return;
         book.setTitle(data[6]);
         book.setAuthor(data[5]);
         book.setLanguage(data[4]);
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            book.setPublishedDate(sdf.parse(data[3]));
+            book.setPublishedDate(strToSqlDate(data[3]));
         } catch (ParseException e) {
-            System.out.println("Enter correct Date format");
+            System.out.println(e.getMessage());
         }
         book.setUrl(data[2]);
         book.setISBN(data[1]);
         book.setPublisher(data[0]);
         client.addBook(book);
+    }
+
+    private String[] getData(String[] labels, Scanner in) {
+        String[] data = new String[labels.length];
+        for (int i = labels.length - 1; i >= 0; i--) {
+            view.Label(labels[i]);
+            String input = in.nextLine();
+            if (input.equals("x")) return null;
+            data[i] = input;
+        }
+        return data;
+    }
+
+    private Date strToSqlDate(String date) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        return (Date) sdf.parse(date);
     }
 
     private void findMat(Scanner in) {

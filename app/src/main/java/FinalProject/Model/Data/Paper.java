@@ -12,6 +12,10 @@ public class Paper extends Material {
         this.DOI = dOI;
     }
 
+    public Paper() {
+        super();
+    }
+
     public String getDOI() {
         return DOI;
     }
@@ -27,5 +31,9 @@ public class Paper extends Material {
     public void setJournalName(String journalName) {
         this.journalName = journalName;
     }
-    
+
+    @Override
+    public String toString() {
+        return super.toString().concat(" | DOI: ").concat(DOI).concat(" | Journal Name").concat(journalName);
+    }
 }
