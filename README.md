@@ -29,9 +29,9 @@ Run the following command to run the program
 When selecting options please follow the characters within the `[]`
 
 ### Example
-```shell
+```
 [1] Login
 [2] Register
 [x] Exit
-Enter choice:
+Enter choice: 1 # To login
 ```
