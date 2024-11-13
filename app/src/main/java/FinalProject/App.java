@@ -21,8 +21,8 @@ public class App {
             [1] Login
             [2] Register
             [3] Exit
-            """;
-    String url = "jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
+            Enter choice: """;
+    String url = "jdbc:mysql://localhost:3306/FinalProject", user = "FinalProject", password = "FinalProject123";
     Database db;
 
     // Login classes
