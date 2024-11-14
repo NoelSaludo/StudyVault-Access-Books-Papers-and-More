@@ -9,9 +9,8 @@ public class ClientView {
         String menu = """
                 [1] Find Material
                 [2] Add Material
-                [3] Show Material
-                [x] Exit
-                """;
+                [3] Show Favorites
+                [x] Exit\n""";
         System.out.println("Welcome to StudyVault user "+username);
         System.out.println(menu);
     }

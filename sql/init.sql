@@ -56,3 +56,16 @@ CREATE TABLE paper_table
             REFERENCES material_table (id)
             ON DELETE CASCADE
 );
+
+CREATE TABLE favorites
+(
+    id          INT NOT NULL UNIQUE,
+    user_id     INT NOT NULL,
+    material_id INT NOT NULL UNIQUE,
+    PRIMARY KEY (id),
+    CONSTRAINT favorites_ibfk_1
+        FOREIGN KEY (user_id) REFERENCES user_account (id),
+    CONSTRAINT favorites_ibfk_2
+        FOREIGN KEY (material_id) REFERENCES material_table (id)
+            ON DELETE CASCADE
+)

@@ -22,8 +22,8 @@ public abstract class Material {
     }
 
     public Material() {
-
     }
+
 
     public int getId() {
         return id;
@@ -65,7 +65,9 @@ public abstract class Material {
         this.publishedDate = publishedDate;
     }
 
-    public String getUrl() {return url;}
+    public String getUrl() {
+        return url;
+    }
 
     public void setUrl(String url) {
         this.url = url;

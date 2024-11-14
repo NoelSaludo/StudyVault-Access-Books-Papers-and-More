@@ -1,7 +1,6 @@
 package FinalProject;
 
 import java.util.Scanner;
-import java.util.logging.Logger;
 
 import FinalProject.Controller.ClientController;
 import FinalProject.Controller.LoginController;
@@ -22,7 +21,7 @@ public class App {
             [2] Register
             [3] Exit
             Enter choice: """;
-    String url = "jdbc:mysql://localhost:3306/FinalProject", user = "FinalProject", password = "FinalProject123";
+    String url = "jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
     Database db;
 
     // Login classes
@@ -68,7 +67,7 @@ public class App {
 
             switch (choice) {
                 case 1:
-                    currUser = loginController.showLogin(in);
+                    currUser = loginController.Login(in);
                     if (currUser != null) {
                         // TODO write the client
                         initClient();

@@ -7,7 +7,7 @@ import FinalProject.Model.Data.Material;
 import FinalProject.Model.Data.Paper;
 import FinalProject.View.ClientView;
 
-import java.sql.Date;
+import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -41,6 +41,12 @@ public class ClientController {
             case '2':
                 addMat(in);
                 break;
+            case '3':
+                addToFav(in);
+                break;
+            case '4':
+                showFavorites(in);
+                break;
             case 'x':
                 return false;
             default:
@@ -48,6 +54,16 @@ public class ClientController {
                 break;
         }
         return true;
+    }
+
+    private void addToFav(Scanner in) {
+        findMat(in);
+        int fav = in.nextInt();
+        client.addFavorite(fav);
+    }
+
+    private void showFavorites(Scanner in) {
+
     }
 
     private void addMat(Scanner in) {
@@ -84,7 +100,7 @@ public class ClientController {
         paper.setAuthor(data[5]);
         paper.setLanguage(data[4]);
         try {
-            paper.setPublishedDate(strToSqlDate(data[3]));
+            paper.setPublishedDate(strToDate(data[3]));
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
@@ -104,7 +120,7 @@ public class ClientController {
         book.setAuthor(data[5]);
         book.setLanguage(data[4]);
         try {
-            book.setPublishedDate(strToSqlDate(data[3]));
+            book.setPublishedDate(strToDate(data[3]));
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
@@ -125,9 +141,9 @@ public class ClientController {
         return data;
     }
 
-    private Date strToSqlDate(String date) throws ParseException {
+    private Date strToDate(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        return (Date) sdf.parse(date);
+        return sdf.parse(date);
     }
 
     private void findMat(Scanner in) {

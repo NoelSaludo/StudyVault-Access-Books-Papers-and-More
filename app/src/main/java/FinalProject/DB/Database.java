@@ -29,11 +29,23 @@ public class Database {
      * @return ResultSet
      * @throws SQLException
      */
-    public int findByName(String table, String column ,String name) throws SQLException {
+    public int find(String table, String column, String name) throws SQLException {
         ResultSet rs;
         String query = "SELECT * FROM " + table + " WHERE " + column + " = ? ";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, name);
+        rs = stm.executeQuery();
+        if (!rs.next()) {
+            return -1;
+        }
+        return rs.getInt("id");
+    }
+
+    public int find(String table, String column, int name) throws SQLException {
+        ResultSet rs;
+        String query = "SELECT * FROM " + table + " WHERE " + column + " = ? ";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, name);
         rs = stm.executeQuery();
         if (!rs.next()) {
             return -1;
@@ -52,7 +64,28 @@ public class Database {
             return null;
         }
 
-        return new User(id, rs.getString("first_name"), rs.getString("last_name"), rs.getString("username"), rs.getString("password"));
+        return new User(id,
+                rs.getString("first_name"),
+                rs.getString("last_name"),
+                rs.getString("username"),
+                 rs.getString("password"),
+                this.getFav(rs.getInt("id"))
+        );
+    }
+
+        private List<Material> getFav(int id) throws SQLException {
+        String query = """
+                SELECT * FROM user_account
+                INNER JOIN favorites ON favorites.user_id=user_account.id
+                WHERE user_account.id = ?""";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        List<Material> materials = new ArrayList<>();
+        while (rs.next()) {
+            materials.add(whichMaterial(rs));
+        }
+        return materials;
     }
 
     /**
@@ -93,7 +126,7 @@ public class Database {
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, Title);
         stm.setString(2, Author);
-        stm.setString(3,  language);
+        stm.setString(3, language);
         stm.setString(4, url);
         stm.setDate(5, publishedDate);
         stm.execute();
@@ -134,17 +167,14 @@ public class Database {
                         rs.getString("isbn"),
                         rs.getString("publisher")
                 );
-                System.out.println("created book");
             } else if (rs.getString("doi") != null) {
                 material = new Paper(
                         mat_id, title, author, language, url, published_date,
                         rs.getString("doi"),
                         rs.getString("journal_name")
                 );
-                System.out.println("created paper");
             }
         }
-        assert material != null;
         return material;
     }
 
@@ -161,4 +191,11 @@ public class Database {
         return whichMaterial(rs);
     }
 
+    public void addFav(int id, int userID) throws SQLException {
+        String query = "INSERT INTO favorites(user_id, material_id) VALUES (?,?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, userID);
+        stm.setInt(2, id);
+        stm.execute();
+    }
 }

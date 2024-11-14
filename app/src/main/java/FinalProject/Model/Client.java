@@ -36,10 +36,14 @@ public class Client {
         return user.getUsername();
     }
 
+    public List<Material> getFavoriteMaterials() {
+        return user.getFavoriteMaterials();
+    }
+
     public void addBook(Book book) {
         try {
             db.addMaterial(book.getTitle(), book.getAuthor(), book.getLanguage(), book.getUrl(), new Date(book.getPublishedDate().getTime()));
-            book.setId(db.findByName("material_table", "material_title", book.getTitle()));
+            book.setId(db.find("material_table", "material_title", book.getTitle()));
             db.addBook(book.getId(), book.getISBN(), book.getPublisher());
             System.out.println("Book added");
         } catch (SQLException e) {
@@ -51,12 +55,23 @@ public class Client {
     public void addPaper(Paper paper) {
         try {
             db.addMaterial(paper.getTitle(), paper.getAuthor(), paper.getLanguage(), paper.getUrl(), new Date(paper.getPublishedDate().getTime()));
-            paper.setId(db.findByName("material_table", "material_title", paper.getTitle()));
-            db.addPaper(paper.getId(),paper.getDOI(),paper.getJournalName());
+            paper.setId(db.find("material_table", "material_title", paper.getTitle()));
+            db.addPaper(paper.getId(), paper.getDOI(), paper.getJournalName());
+            System.out.println("Paper added");
         } catch (SQLException e) {
             System.out.println("Paper was not added");
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public void addFavorite(int id) {
+        try {
+            db.addFav(id, user.getId());
+            System.out.println("Favorite added");
+        } catch (SQLException e) {
+            System.out.println("Favorite was not added");
+            System.out.println(e.getMessage());
+        }
     }
 }

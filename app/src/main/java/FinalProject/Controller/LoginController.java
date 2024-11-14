@@ -21,7 +21,7 @@ public class LoginController {
      * 
      * @return User
      */
-    public User showLogin(Scanner in) {
+    public User Login(Scanner in) {
         User loggingUser = null;
         while (loggingUser == null) {
             try {

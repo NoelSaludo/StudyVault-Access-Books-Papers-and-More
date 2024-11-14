@@ -1,6 +1,5 @@
 package FinalProject.Model;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import FinalProject.DB.Database;
@@ -18,7 +17,7 @@ public class Login {
     public User findUser(String name, String password) {
         User user = null;
         try {
-            int id = db.findByName("user_account", "username",name);
+            int id = db.find("user_account", "username",name);
             user = db.findUser(id);
             if (user.getPassword().equals(password) && user != null) {
                 return user;
