@@ -8,15 +8,13 @@ public class User {
     private String lastName;
     private String username;
     private String password;
-    private List<Material> favoriteMaterials;
 
-    public User(int id, String firstName, String lastName, String username, String password, List<Material> favoriteMaterials) {
+    public User(int id, String firstName, String lastName, String username, String password) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
-        this.favoriteMaterials = favoriteMaterials;
     }
 
     public User() {
@@ -63,11 +61,4 @@ public class User {
         this.password = password;
     }
 
-    public List<Material> getFavoriteMaterials() {
-        return favoriteMaterials;
-    }
-
-    public void setFavoriteMaterials(List<Material> favoriteMaterials) {
-        this.favoriteMaterials = favoriteMaterials;
-    }
 }

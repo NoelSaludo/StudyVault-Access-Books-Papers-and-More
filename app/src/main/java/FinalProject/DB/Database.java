@@ -68,22 +68,22 @@ public class Database {
                 rs.getString("first_name"),
                 rs.getString("last_name"),
                 rs.getString("username"),
-                 rs.getString("password"),
-                this.getFav(rs.getInt("id"))
+                rs.getString("password")
         );
     }
 
-        private List<Material> getFav(int id) throws SQLException {
+    public List<Material> getFav(int id) throws SQLException {
         String query = """
                 SELECT * FROM user_account
                 INNER JOIN favorites ON favorites.user_id=user_account.id
+                INNER JOIN material_table ON favorites.material_id=material_table.id
                 WHERE user_account.id = ?""";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         List<Material> materials = new ArrayList<>();
         while (rs.next()) {
-            materials.add(whichMaterial(rs));
+            materials.add(getMaterial(rs.getInt("material_id")));
         }
         return materials;
     }

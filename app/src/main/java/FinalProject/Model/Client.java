@@ -36,10 +36,6 @@ public class Client {
         return user.getUsername();
     }
 
-    public List<Material> getFavoriteMaterials() {
-        return user.getFavoriteMaterials();
-    }
-
     public void addBook(Book book) {
         try {
             db.addMaterial(book.getTitle(), book.getAuthor(), book.getLanguage(), book.getUrl(), new Date(book.getPublishedDate().getTime()));
@@ -73,5 +69,20 @@ public class Client {
             System.out.println("Favorite was not added");
             System.out.println(e.getMessage());
         }
+    }
+
+    public List<Material> getFavorites(int id) {
+        List<Material> materials = new ArrayList<>();
+        try {
+            materials = db.getFav(id);
+        } catch (SQLException e) {
+            System.out.println("Error at getting favorites");
+            System.out.println(e.getMessage());
+        }
+        return materials;
+    }
+
+    public int getID() {
+        return user.getId();
     }
 }

@@ -45,7 +45,7 @@ public class ClientController {
                 addToFav(in);
                 break;
             case '4':
-                showFavorites(in);
+                showFavorites();
                 break;
             case 'x':
                 return false;
@@ -62,8 +62,9 @@ public class ClientController {
         client.addFavorite(fav);
     }
 
-    private void showFavorites(Scanner in) {
-
+    private void showFavorites() {
+        view.label("favorites:");
+        view.showFoundMats(client.getFavorites(client.getID()));
     }
 
     private void addMat(Scanner in) {
@@ -133,7 +134,7 @@ public class ClientController {
     private String[] getData(String[] labels, Scanner in) {
         String[] data = new String[labels.length];
         for (int i = labels.length - 1; i >= 0; i--) {
-            view.Label(labels[i]);
+            view.label(labels[i]);
             String input = in.nextLine();
             if (input.equals("x")) return null;
             data[i] = input;
