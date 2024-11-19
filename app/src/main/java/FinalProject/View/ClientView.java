@@ -9,10 +9,12 @@ public class ClientView {
         String menu = """
                 [1] Find Material
                 [2] Add Material
-                [3] Show Favorites
-                [x] Exit\n""";
+                [3] Add Favorite
+                [4] Show Favorites
+                [x] Exit""";
         System.out.println("Welcome to StudyVault user "+username);
         System.out.println(menu);
+        System.out.println("Enter your choice: ");
     }
 
     public void incorrectInput() {
@@ -20,12 +22,8 @@ public class ClientView {
     }
 
     public void askForTitle() {
-        System.out.println("""
-                Find your needed material by giving the exact name of the material
-                example:
-                    Intro to Computer Programming
-                """);
-        System.out.println("Enter title");
+        System.out.println("Find your needed material by giving the exact name of the material ");
+        System.out.println("Enter title of material");
     }
 
     public void showFoundMats(List<Material> materials) {
@@ -43,7 +41,6 @@ public class ClientView {
         String types = """
                 [1] Book
                 [2] Paper
-                [3] Video
                 [x] cancel""";
         System.out.println(types);
     }

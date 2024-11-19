@@ -58,6 +58,7 @@ public class ClientController {
 
     private void addToFav(Scanner in) {
         findMat(in);
+        view.label("Enter material id");
         int fav = in.nextInt();
         client.addFavorite(fav);
     }
