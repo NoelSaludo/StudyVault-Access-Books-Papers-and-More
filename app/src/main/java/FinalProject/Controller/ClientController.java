@@ -2,9 +2,8 @@ package FinalProject.Controller;
 
 
 import FinalProject.Model.Client;
-import FinalProject.Model.Data.Book;
-import FinalProject.Model.Data.Material;
-import FinalProject.Model.Data.Paper;
+import FinalProject.Model.Data.*;
+import FinalProject.Model.Enum.Type;
 import FinalProject.View.ClientView;
 
 import java.util.Date;
@@ -83,6 +82,10 @@ public class ClientController {
                     addPaper(in);
                     break;
                 case '3':
+                    addVideo(in);
+                    break;
+                case '4':
+                    addSeminar(in);
                     break;
                 case 'x':
                     break dance;
@@ -90,6 +93,52 @@ public class ClientController {
                     view.incorrectInput();
                     break;
             }
+        }
+    }
+
+    private void addSeminar(Scanner in) {
+        Seminar seminar = new Seminar();
+        String[] labels = {"Type (ACADEMIC, PROFFESSIONAL, WEBINAR): ", "Duration: ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
+        String[] data = getData(labels, in);
+        if (data == null) return;
+        seminar.setTitle(data[6]);
+        seminar.setAuthor(data[5]);
+        seminar.setLanguage(data[4]);
+        try {
+            seminar.setPublishedDate(strToDate(data[3]));
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        seminar.setUrl(data[2]);
+        seminar.setDuration(Integer.parseInt(data[1]));
+        try {
+            seminar.setType(Type.valueOf(data[0]));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+        client.addSeminar(seminar);
+    }
+
+    private void addVideo(Scanner in) {
+        Video video = new Video();
+        String[] labels = {"Resolution: ", "Duration: ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
+        String[] data = getData(labels, in);
+        if (data == null) return;
+        video.setTitle(data[6]);
+        video.setAuthor(data[5]);
+        video.setLanguage(data[4]);
+        try {
+            video.setPublishedDate(strToDate(data[3]));
+        } catch (ParseException e) {
+            System.out.println(e.getMessage());
+        }
+        video.setUrl(data[2]);
+        video.setDuration(Integer.parseInt(data[1]));
+        video.setResolution(data[0]);
+        if (client.addVideo(video)) {
+            view.label("Video added");
+        } else {
+            view.label("Video not added");
         }
     }
 

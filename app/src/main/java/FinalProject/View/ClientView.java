@@ -41,6 +41,8 @@ public class ClientView {
         String types = """
                 [1] Book
                 [2] Paper
+                [3] Video
+                [4] Seminar
                 [x] cancel""";
         System.out.println(types);
     }

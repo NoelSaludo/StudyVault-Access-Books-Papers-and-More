@@ -1,7 +1,7 @@
 # Study Vault
 ***
 ## Description
-A console app that allows you to find and access resources such as books and papers.
+A console app that allows you to find and access resources such as books, papers and more.
 The program uses OOP principles to make the code base more modular and easier to scale,
 check [OOP](#oop) for more info.
 The program implements SDG goal 4, check [SDG Implentation](#sdg-implementation) for more info.
@@ -20,7 +20,7 @@ But thanks with OOP the program can grow easily thanks to it being modular.
     to reduce redundancy.
 - **Polymorphism**
 
-    Classes that inherits overrides the `toString()` method to suite the objects String conversion. 
+    Classes that inherits overrides the `toString()` method to suite the objects string conversion. 
     The classes will have different output when being printed thanks to this principle.
 - **Abstraction**
 
@@ -29,7 +29,7 @@ But thanks with OOP the program can grow easily thanks to it being modular.
     Being an abstract class the `Material` class only allows it to be inherited and not instantiated for type safety.
 - **Encapsulation**
 
-    The class Encapsulates all member variables allowing for safer way of accessing data on each class.
+    All the class Encapsulates all member variables allowing for safer way of accessing data on each class.
 ## Installation
 ### Pre-Requisite
 - Gradle

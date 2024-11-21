@@ -34,6 +34,6 @@ public class Paper extends Material {
 
     @Override
     public String toString() {
-        return super.toString().concat(" | DOI: ").concat(DOI).concat(" | Journal Name").concat(journalName);
+        return "Paper\n".concat(super.toString()).concat(" | DOI: ").concat(DOI).concat(" | Journal Name").concat(journalName);
     }
 }

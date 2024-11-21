@@ -1,10 +1,7 @@
 package FinalProject.Model;
 
 import FinalProject.DB.Database;
-import FinalProject.Model.Data.Book;
-import FinalProject.Model.Data.Material;
-import FinalProject.Model.Data.Paper;
-import FinalProject.Model.Data.User;
+import FinalProject.Model.Data.*;
 
 import java.sql.SQLException;
 import java.sql.Date;
@@ -61,6 +58,30 @@ public class Client {
 
     }
 
+    public Boolean addVideo(Video video) {
+        try {
+            db.addMaterial(video.getTitle(), video.getAuthor(), video.getLanguage(), video.getUrl(), new Date(video.getPublishedDate().getTime()));
+            video.setId(db.find("material_table", "material_title", video.getTitle()));
+            db.addVideo(video.getId(), video.getDuration(), video.getResolution());
+            return true;
+        } catch (SQLException e) {
+            System.out.println("Video was not added");
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public void addSeminar(Seminar seminar) {
+        try {
+            db.addMaterial(seminar.getTitle(), seminar.getAuthor(), seminar.getLanguage(), seminar.getUrl(), new Date(seminar.getPublishedDate().getTime()));
+            seminar.setId(db.find("material_table", "material_title", seminar.getTitle()));
+            db.addSeminar(seminar.getId(), seminar.getType(), seminar.getDuration());
+        } catch (SQLException e) {
+            System.out.println("Seminar was not added");
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void addFavorite(int id) {
         try {
             db.addFav(id, user.getId());
@@ -85,4 +106,5 @@ public class Client {
     public int getID() {
         return user.getId();
     }
+
 }

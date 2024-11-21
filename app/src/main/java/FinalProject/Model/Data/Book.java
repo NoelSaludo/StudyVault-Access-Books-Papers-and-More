@@ -34,6 +34,6 @@ public class Book extends Material {
 
     @Override
     public String toString() {
-        return super.toString().concat(" | ISBN: " + ISBN).concat(" | Publisher: " + publisher);
+        return "Book\n".concat(super.toString()).concat(" | ISBN: " + ISBN).concat(" | Publisher: " + publisher);
     }
 }
