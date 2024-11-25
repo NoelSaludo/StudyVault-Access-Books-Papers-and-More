@@ -12,17 +12,17 @@ import java.util.List;
 import FinalProject.Model.Data.*;
 import FinalProject.Model.Enum.Type;
 
-public class Database {
+ public class Database {
     private final Connection con;
 
-    public Database(String url, String user, String pass) throws SQLException, ClassNotFoundException {
+     public Database(String url, String user, String pass) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         this.con = DriverManager.getConnection(url, user, pass);
     }
 
-    /* ===== public methods ===== */
+    /* ===== Public methods ===== */
     // Finding methods ------------
-    public int find(String table, String column, String name) throws SQLException {
+     public int find(String table, String column, String name) throws SQLException {
         ResultSet rs;
         String query = "SELECT * FROM " + table + " WHERE " + column + " = ? ";
         PreparedStatement stm = con.prepareStatement(query);
@@ -34,7 +34,7 @@ public class Database {
         return rs.getInt("id");
     }
 
-    public User findUser(int id) throws SQLException {
+     public User findUser(int id) throws SQLException {
         String query = "SELECT * FROM user_account WHERE id = ?";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -53,7 +53,7 @@ public class Database {
         );
     }
 
-    public List<Material> findMaterial(String name) throws SQLException {
+     public List<Material> findMaterial(String name) throws SQLException {
         List<Material> materials = new ArrayList<>();
         String query = "SELECT * FROM material_table WHERE material_title LIKE ?";
         PreparedStatement stm = con.prepareStatement(query);
@@ -68,7 +68,7 @@ public class Database {
     }
 
     // Get methods ------------
-    public List<Material> getFav(int id) throws SQLException {
+     public List<Material> getFav(int id) throws SQLException {
         String query = """
                 SELECT * FROM user_account
                 INNER JOIN favorites ON favorites.user_id=user_account.id
@@ -85,7 +85,7 @@ public class Database {
     }
 
     // Insert methods -------------
-    public Boolean InsertUser(User newUser) throws SQLException {
+     public Boolean InsertUser(User newUser) throws SQLException {
         String query = """
                     INSERT INTO user_account(first_name, last_name, username, password) VALUES (?,?,?,?)
                 """;
@@ -98,7 +98,7 @@ public class Database {
     }
 
 
-    public void addMaterial(String Title, String Author, String language, String url, Date publishedDate) throws SQLException {
+     public void addMaterial(String Title, String Author, String language, String url, Date publishedDate) throws SQLException {
         String query = "INSERT INTO material_table(material_title, material_author, material_language, material_url, material_published_date) VALUES (?,?,?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, Title);
@@ -109,7 +109,7 @@ public class Database {
         stm.execute();
     }
 
-    public void addBook(int id, String isbn, String publisher) throws SQLException {
+     public void addBook(int id, String isbn, String publisher) throws SQLException {
         String query = "INSERT INTO book_table(material_id,isbn,publisher) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -118,7 +118,7 @@ public class Database {
         stm.execute();
     }
 
-    public void addPaper(int id, String doi, String journalName) throws SQLException {
+     public void addPaper(int id, String doi, String journalName) throws SQLException {
         String query = "INSERT INTO paper_table(material_id,doi,journal_name) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -127,7 +127,7 @@ public class Database {
         stm.execute();
     }
 
-    public void addVideo(int id, int duration, String resolution) throws SQLException {
+     public void addVideo(int id, int duration, String resolution) throws SQLException {
         String query = "INSERT INTO video_table(material_id,duration,resolution) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -136,7 +136,7 @@ public class Database {
         stm.execute();
     }
 
-    public void addSeminar(int id, Type type, int duration) throws SQLException {
+     public void addSeminar(int id, Type type, int duration) throws SQLException {
         String query = "INSERT INTO seminar_table(material_id,type,duration) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -144,6 +144,14 @@ public class Database {
         stm.setInt(3, duration);
         stm.execute();
     }
+
+     public void addFav(int id, int userID) throws SQLException {
+         String query = "INSERT INTO favorites(user_id, material_id) VALUES (?,?)";
+         PreparedStatement stm = con.prepareStatement(query);
+         stm.setInt(1, userID);
+         stm.setInt(2, id);
+         stm.execute();
+     }
 
     /* ====== Private methods ====== */
     private Material whichMaterial(ResultSet rs) throws SQLException {
@@ -200,13 +208,5 @@ public class Database {
         stm.setInt(1, id);
         ResultSet rs = stm.executeQuery();
         return whichMaterial(rs);
-    }
-
-    public void addFav(int id, int userID) throws SQLException {
-        String query = "INSERT INTO favorites(user_id, material_id) VALUES (?,?)";
-        PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, userID);
-        stm.setInt(2, id);
-        stm.execute();
     }
 }

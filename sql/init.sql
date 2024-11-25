@@ -4,7 +4,7 @@ GRANT ALTER, CREATE,
     INSERT, REFERENCES,
     SELECT,
     UPDATE
-    ON *.*
+    ON FinalProject.*
     TO 'FinalProject'@'localhost';
 
 CREATE DATABASE FinalProject;
