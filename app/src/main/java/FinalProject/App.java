@@ -20,7 +20,7 @@ public class App {
             [1] Login
             [2] Register
             [3] Exit
-            Enter choice: """;
+            Enter choice:""";
     String url = "jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
     Database db;
 
@@ -47,7 +47,7 @@ public class App {
             db = new Database(url, user, password);
             login = new Login(db);
             reg = new Register(db);
-
+            client = new Client(db);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -56,6 +56,9 @@ public class App {
 
         regView = new RegisterView();
         regController = new RegisterController(reg, regView);
+
+        clientView = new ClientView();
+        clientController = new ClientController(client, clientView);
     }
 
     public void run() {
@@ -69,8 +72,7 @@ public class App {
                 case 1:
                     currUser = loginController.Login(in);
                     if (currUser != null) {
-                        // TODO write the client
-                        initClient();
+                        clientController.setUser(currUser);
                         clientController.run(in);
                     }
                     break;
@@ -86,11 +88,6 @@ public class App {
         }
         in.close();
 
-    }
-    private void initClient() {
-        client = new Client(db,currUser);
-        clientView = new ClientView();
-        clientController = new ClientController(client, clientView);
     }
 
     public static void main(String[] args) {
