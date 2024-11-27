@@ -20,6 +20,16 @@ CREATE TABLE user_account
     PRIMARY KEY (id)
 );
 
+CREATE TABLE admin
+(
+    id      INT NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL UNIQUE,
+    PRIMARY KEY (id),
+    CONSTRAINT admin_ibfk_1
+        FOREIGN KEY (user_id) REFERENCES user_account (id)
+            ON DELETE CASCADE
+);
+
 CREATE TABLE material_table
 (
     id                      INT AUTO_INCREMENT  NOT NULL,
@@ -33,7 +43,7 @@ CREATE TABLE material_table
 
 CREATE TABLE book_table
 (
-    book_id          INT AUTO_INCREMENT  NOT NULL,
+    book_id     INT AUTO_INCREMENT  NOT NULL,
     material_id INT UNIQUE          NOT NULL,
     isbn        VARCHAR(255) UNIQUE NOT NULL,
     publisher   VARCHAR(255)        NOT NULL,
@@ -46,7 +56,7 @@ CREATE TABLE book_table
 
 CREATE TABLE paper_table
 (
-    paper_id          INT AUTO_INCREMENT  NOT NULL,
+    paper_id    INT AUTO_INCREMENT  NOT NULL,
     material_id INT UNIQUE          NOT NULL,
     isbn        VARCHAR(255) UNIQUE NOT NULL,
     publisher   VARCHAR(255)        NOT NULL,
@@ -73,7 +83,7 @@ CREATE TABLE favorites
 
 CREATE TABLE video_table
 (
-    video_id          INT AUTO_INCREMENT NOT NULL,
+    video_id    INT AUTO_INCREMENT NOT NULL,
     material_id INT                NOT NULL UNIQUE,
     duration    INT                NOT NULL,
     resolution  VARCHAR(50)        NOT NULL,
@@ -85,7 +95,7 @@ CREATE TABLE video_table
 
 CREATE TABLE seminar_table
 (
-    seminar_id          INT AUTO_INCREMENT NOT NULL,
+    seminar_id  INT AUTO_INCREMENT NOT NULL,
     material_id INT                NOT NULL UNIQUE,
     type        ENUM ('ACADEMIC',
         'PROFFESSIONAL',

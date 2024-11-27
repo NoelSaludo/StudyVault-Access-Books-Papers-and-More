@@ -31,4 +31,21 @@ public class Login {
         }
         return null;
     }
+
+    public User findAdmin(String name, String password) {
+        try {
+            int id = db.find("user_account", "username", name);
+            User user = db.findAdmin(id);
+            if (user == null) {
+                return null;
+            }
+            if (user.getPassword().equals(password)) {
+                return user;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -1,6 +1,7 @@
 package FinalProject.Controller;
 
 
+import FinalProject.Model.Admin;
 import FinalProject.Model.Client;
 import FinalProject.Model.Data.*;
 import FinalProject.Model.Enum.Type;
@@ -15,46 +16,53 @@ import java.util.Scanner;
 public class ClientController {
     private Client client;
     private ClientView view;
+    private Boolean isRunning;
 
     public ClientController(Client client, ClientView view) {
         this.client = client;
         this.view = view;
+        this.isRunning = true;
     }
 
     public void run(Scanner in) {
-        Boolean isRunning = true;
+        if (client.getClass().equals(Admin.class)) {
+            AdminMode(in);
+        }
         while (isRunning) {
             view.greet(client.getUsername());
             char choice = in.next().charAt(0);
             in.nextLine();
-            isRunning = validateChoice(choice, in);
+            switch (choice) {
+                case '1':
+                    findMat(in);
+                    break;
+                case '2':
+                    addMat(in);
+                    break;
+                case '3':
+                    addToFav(in);
+                    break;
+                case '4':
+                    showFavorites();
+                    break;
+                case 'x':
+                    isRunning = false;
+                default:
+                    view.incorrectInput();
+                    break;
+            }
         }
+    }
+
+    public void setUser(User currUser) {
+        client.setUser(currUser);
+    }
+
+    public void setClient(Admin admin) {
+        this.client = admin;
     }
 
     // Private methods -------
-    private Boolean validateChoice(char choice, Scanner in) {
-        switch (choice) {
-            case '1':
-                findMat(in);
-                break;
-            case '2':
-                addMat(in);
-                break;
-            case '3':
-                addToFav(in);
-                break;
-            case '4':
-                showFavorites();
-                break;
-            case 'x':
-                return false;
-            default:
-                view.incorrectInput();
-                break;
-        }
-        return true;
-    }
-
     private void addToFav(Scanner in) {
         findMat(in);
         view.label("Enter material id");
@@ -216,7 +224,46 @@ public class ClientController {
         view.showFoundMats(materials);
     }
 
-    public void setUser(User currUser) {
-        client.setUser(currUser);
+    private void AdminMode(Scanner in) {
+        while(isRunning) {
+            view.greetAdmin(client.getUsername());
+            char choice = in.nextLine().charAt(0);
+            switch (choice) {
+                case '1':
+                        findMat(in);
+                    break;
+                case '2':
+                        addMat(in);
+                    break;
+                case '3':
+                        deleteMat(in);
+                    break;
+                case '4':
+                        updateMat(in);
+                    break;
+                case 'x':
+                    isRunning = false;
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
+    }
+
+    private void deleteMat(Scanner in) {
+        findMat(in);
+        int id = Integer.parseInt(in.nextLine());
+        Admin admin = (Admin) client;
+        if (admin.deleteMaterial(id)) {
+            view.label("deletion success");
+        } else {
+            view.label("deletion failed");
+        }
+    }
+
+    private void updateMat(Scanner in) {
+
     }
 }

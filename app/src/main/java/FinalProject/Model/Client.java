@@ -14,7 +14,6 @@ public class Client {
 
     public Client(Database db) {
         this.db = db;
-        this.user = user;
     }
 
     public List<Material> findMaterials(String materialName) {

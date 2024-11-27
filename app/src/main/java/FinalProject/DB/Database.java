@@ -209,4 +209,28 @@ import FinalProject.Model.Enum.Type;
         ResultSet rs = stm.executeQuery();
         return whichMaterial(rs);
     }
-}
+
+     public void deleteMaterial(int id) throws SQLException {
+         String query = "DELETE FROM material_table WHERE material_table.id = ?";
+         PreparedStatement stm = con.prepareStatement(query);
+         stm.setInt(1, id);
+         stm.execute();
+     }
+
+     public User findAdmin(int id) throws SQLException {
+        String query = "SELECT * FROM user_account INNER JOIN admin ON user_account.id = admin.user_id WHERE user_account.id = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return new User(
+                    rs.getInt("id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("username"),
+                    rs.getString("password")
+            );
+        }
+        return null;
+     }
+ }

@@ -17,6 +17,18 @@ public class ClientView {
         System.out.println("Enter your choice: ");
     }
 
+    public void greetAdmin(String username) {
+        String menu = """
+                [1] Find Material
+                [2] Add Material
+                [3] Delete Material
+                [4] Update Material
+                [x] Exit""";
+        System.out.println("Welcome to StudyVault admin "+username);
+        System.out.println(menu);
+        System.out.println("Enter your choice: ");
+    }
+
     public void incorrectInput() {
         System.out.println("Enter a valid choice");
     }

@@ -6,6 +6,7 @@ import FinalProject.Controller.ClientController;
 import FinalProject.Controller.LoginController;
 import FinalProject.Controller.RegisterController;
 import FinalProject.DB.Database;
+import FinalProject.Model.Admin;
 import FinalProject.Model.Client;
 import FinalProject.Model.Login;
 import FinalProject.Model.Register;
@@ -39,6 +40,8 @@ public class App {
     ClientController clientController;
     ClientView clientView;
 
+    Admin admin;
+
     // Application states
     User currUser;
 
@@ -48,6 +51,7 @@ public class App {
             login = new Login(db);
             reg = new Register(db);
             client = new Client(db);
+            admin = new Admin(db);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -72,14 +76,21 @@ public class App {
                 case 1:
                     currUser = loginController.Login(in);
                     if (currUser != null) {
-                        clientController.setUser(currUser);
-                        clientController.run(in);
+                        runClient(in);
                     }
                     break;
                 case 2:
                     regController.Register(in);
                     break;
                 case 3:
+                    currUser = loginController.LoginAdmin(in);
+                    if (currUser != null) {
+                        clientController.setClient(admin);
+                        runClient(in);
+                    } else {
+                        System.out.println("Admin not found");
+                    }
+                case 4:
                     System.exit(0);
                     break;
                 default:
@@ -88,6 +99,11 @@ public class App {
         }
         in.close();
 
+    }
+
+    public void runClient(Scanner in) {
+        clientController.setUser(currUser);
+        clientController.run(in);
     }
 
     public static void main(String[] args) {
