@@ -12,17 +12,24 @@ import java.util.List;
 import FinalProject.Model.Data.*;
 import FinalProject.Model.Enum.Type;
 
- public class Database {
+public class Database {
     private final Connection con;
 
-     public Database(String url, String user, String pass) throws SQLException, ClassNotFoundException {
+    public Database(String url, String user, String pass) throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
         this.con = DriverManager.getConnection(url, user, pass);
     }
 
     /* ===== Public methods ===== */
     // Finding methods ------------
-     public int find(String table, String column, String name) throws SQLException {
+    /**
+     * A simple find function that returns the id
+     * @param table database table
+     * @param column column where to search
+     * @param name name of the item
+     * @return id
+     * */
+    public int find(String table, String column, String name) throws SQLException {
         ResultSet rs;
         String query = "SELECT * FROM " + table + " WHERE " + column + " = ? ";
         PreparedStatement stm = con.prepareStatement(query);
@@ -34,7 +41,12 @@ import FinalProject.Model.Enum.Type;
         return rs.getInt("id");
     }
 
-     public User findUser(int id) throws SQLException {
+    /**
+     * finds a user from the database using and id
+     * @param id id of the user
+     * @return User
+     * */
+    public User findUser(int id) throws SQLException {
         String query = "SELECT * FROM user_account WHERE id = ?";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -53,7 +65,12 @@ import FinalProject.Model.Enum.Type;
         );
     }
 
-     public List<Material> findMaterial(String name) throws SQLException {
+    /**
+     * find materials that contains the substring from the material_table
+     * @param name substring to search for
+     * @return List of Material
+     * */
+    public List<Material> findMaterial(String name) throws SQLException {
         List<Material> materials = new ArrayList<>();
         String query = "SELECT * FROM material_table WHERE material_title LIKE ?";
         PreparedStatement stm = con.prepareStatement(query);
@@ -67,8 +84,49 @@ import FinalProject.Model.Enum.Type;
         return materials;
     }
 
+    /**
+     * deletes a material using the id
+     * @param id material's id
+     * */
+    public void deleteMaterial(int id) throws SQLException {
+        String query = "DELETE FROM material_table WHERE material_table.id = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        stm.execute();
+    }
+
+    /**
+     * finds an admin from the database
+     * @param id user id of the admin
+     * @return Admin
+     * @throws SQLException if it did not find a user with the same id
+     */
+    public User findAdmin(int id) throws SQLException {
+        String query = "SELECT * FROM user_account INNER JOIN admin ON user_account.id = admin.user_id WHERE user_account.id = ?";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, id);
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return new User(
+                    rs.getInt("id"),
+                    rs.getString("first_name"),
+                    rs.getString("last_name"),
+                    rs.getString("username"),
+                    rs.getString("password")
+            );
+        }
+        return null;
+    }
+
     // Get methods ------------
-     public List<Material> getFav(int id) throws SQLException {
+
+    /**
+     * returns all the material with from the favorite table with the corresponding user id
+     * @param id user id
+     * @return List of Favorite material
+     * @throws SQLException if the user id was not found
+     */
+    public List<Material> getFav(int id) throws SQLException {
         String query = """
                 SELECT * FROM user_account
                 INNER JOIN favorites ON favorites.user_id=user_account.id
@@ -85,7 +143,14 @@ import FinalProject.Model.Enum.Type;
     }
 
     // Insert methods -------------
-     public Boolean InsertUser(User newUser) throws SQLException {
+
+    /**
+     * Inserts a user to the database
+     *
+     * @param newUser the new user to insert
+     * @throws SQLException if the insertion failed
+     */
+    public void InsertUser(User newUser) throws SQLException {
         String query = """
                     INSERT INTO user_account(first_name, last_name, username, password) VALUES (?,?,?,?)
                 """;
@@ -94,11 +159,19 @@ import FinalProject.Model.Enum.Type;
         stm.setString(2, newUser.getLastName());
         stm.setString(3, newUser.getUsername());
         stm.setString(4, newUser.getPassword());
-        return stm.execute();
     }
 
 
-     public void addMaterial(String Title, String Author, String language, String url, Date publishedDate) throws SQLException {
+    /**
+     * Adds a material to the material_table
+     * @param Title title of the material
+     * @param Author author of the material
+     * @param language language the material uses
+     * @param url link of the material
+     * @param publishedDate published date of the material
+     * @throws SQLException if the insertion failed
+     */
+    public void addMaterial(String Title, String Author, String language, String url, Date publishedDate) throws SQLException {
         String query = "INSERT INTO material_table(material_title, material_author, material_language, material_url, material_published_date) VALUES (?,?,?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setString(1, Title);
@@ -109,7 +182,14 @@ import FinalProject.Model.Enum.Type;
         stm.execute();
     }
 
-     public void addBook(int id, String isbn, String publisher) throws SQLException {
+    /**
+     * Adds a book to the book_table
+     * @param id material_id of the book
+     * @param isbn international standard book number
+     * @param publisher publisher of the book
+     * @throws SQLException if the insertion failed
+     */
+    public void addBook(int id, String isbn, String publisher) throws SQLException {
         String query = "INSERT INTO book_table(material_id,isbn,publisher) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -118,7 +198,14 @@ import FinalProject.Model.Enum.Type;
         stm.execute();
     }
 
-     public void addPaper(int id, String doi, String journalName) throws SQLException {
+    /**
+     * adds paper to the paper_table
+     * @param id material_id of the paper
+     * @param doi digital object identifier
+     * @param journalName journal name where to paper is found
+     * @throws SQLException if the insertion failed
+     */
+    public void addPaper(int id, String doi, String journalName) throws SQLException {
         String query = "INSERT INTO paper_table(material_id,doi,journal_name) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -127,7 +214,14 @@ import FinalProject.Model.Enum.Type;
         stm.execute();
     }
 
-     public void addVideo(int id, int duration, String resolution) throws SQLException {
+    /**
+     * adds video to the video_table
+     * @param id material_id of the video
+     * @param duration duration of the video in minutes
+     * @param resolution the resolution of the video
+     * @throws SQLException if the insertion failed
+     */
+    public void addVideo(int id, int duration, String resolution) throws SQLException {
         String query = "INSERT INTO video_table(material_id,duration,resolution) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -136,7 +230,14 @@ import FinalProject.Model.Enum.Type;
         stm.execute();
     }
 
-     public void addSeminar(int id, Type type, int duration) throws SQLException {
+    /**
+     * adds a seminar to the seminar_table
+     * @param id material_id of the seminar
+     * @param type ACADEMIC, PROFESSIONAL, WEBINAR
+     * @param duration duration of the seminar in hours
+     * @throws SQLException if the insertion fail
+     */
+    public void addSeminar(int id, Type type, int duration) throws SQLException {
         String query = "INSERT INTO seminar_table(material_id,type,duration) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
@@ -145,15 +246,28 @@ import FinalProject.Model.Enum.Type;
         stm.execute();
     }
 
-     public void addFav(int id, int userID) throws SQLException {
-         String query = "INSERT INTO favorites(user_id, material_id) VALUES (?,?)";
-         PreparedStatement stm = con.prepareStatement(query);
-         stm.setInt(1, userID);
-         stm.setInt(2, id);
-         stm.execute();
-     }
+    /**
+     * Add a favorite material using the user_id and material_id
+     * @param id material_id
+     * @param userID user_id
+     * @throws SQLException if the insertion fail
+     */
+    public void addFav(int id, int userID) throws SQLException {
+        String query = "INSERT INTO favorites(user_id, material_id) VALUES (?,?)";
+        PreparedStatement stm = con.prepareStatement(query);
+        stm.setInt(1, userID);
+        stm.setInt(2, id);
+        stm.execute();
+    }
 
     /* ====== Private methods ====== */
+
+    /**
+     * determines which material to return
+     * @param rs the result of a query
+     * @return A material
+     * @throws SQLException if there is a missing column
+     */
     private Material whichMaterial(ResultSet rs) throws SQLException {
         Material material = null;
         if (rs.next()) {
@@ -195,6 +309,12 @@ import FinalProject.Model.Enum.Type;
         return material;
     }
 
+    /**
+     * Returns the material found from all the table that corresponds with the material_table
+     * @param id material_id
+     * @return Material
+     * @throws SQLException if there is no similar id or column is missing
+     */
     private Material getMaterial(int id) throws SQLException {
         String query = """
                 SELECT * FROM material_table
@@ -210,27 +330,4 @@ import FinalProject.Model.Enum.Type;
         return whichMaterial(rs);
     }
 
-     public void deleteMaterial(int id) throws SQLException {
-         String query = "DELETE FROM material_table WHERE material_table.id = ?";
-         PreparedStatement stm = con.prepareStatement(query);
-         stm.setInt(1, id);
-         stm.execute();
-     }
-
-     public User findAdmin(int id) throws SQLException {
-        String query = "SELECT * FROM user_account INNER JOIN admin ON user_account.id = admin.user_id WHERE user_account.id = ?";
-        PreparedStatement stm = con.prepareStatement(query);
-        stm.setInt(1, id);
-        ResultSet rs = stm.executeQuery();
-        if (rs.next()) {
-            return new User(
-                    rs.getInt("id"),
-                    rs.getString("first_name"),
-                    rs.getString("last_name"),
-                    rs.getString("username"),
-                    rs.getString("password")
-            );
-        }
-        return null;
-     }
- }
+}
