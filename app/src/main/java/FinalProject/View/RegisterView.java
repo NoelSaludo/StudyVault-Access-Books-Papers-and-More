@@ -15,4 +15,12 @@ public class RegisterView extends LoginView {
         System.out.print("Lastname: ");
     }
 
+    public void registerSuccess() {
+        System.out.println("Registered Successfully");
+    }
+
+    public void registerFailed() {
+        System.out.println("Failed to register");
+    }
+
 }

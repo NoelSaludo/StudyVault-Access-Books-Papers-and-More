@@ -59,7 +59,7 @@ public class ClientView {
         System.out.println(types);
     }
 
-    public void label(String s) {
-        System.out.print(s);
+    public void label(String x) {
+        System.out.print(x);
     }
 }

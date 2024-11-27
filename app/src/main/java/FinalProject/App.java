@@ -20,8 +20,10 @@ public class App {
             Welcome to StudyVault
             [1] Login
             [2] Register
-            [3] Exit
+            [3] Admin
+            [4] Exit
             Enter choice:""";
+    // TODO rename testdb to FinalProject later
     String url = "jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
     Database db;
 
@@ -76,7 +78,7 @@ public class App {
                 case 1:
                     currUser = loginController.Login(in);
                     if (currUser != null) {
-                        runClient(in);
+                        runClient(in, false);
                     }
                     break;
                 case 2:
@@ -84,11 +86,9 @@ public class App {
                     break;
                 case 3:
                     currUser = loginController.LoginAdmin(in);
+                    clientController.setClient(admin);
                     if (currUser != null) {
-                        clientController.setClient(admin);
-                        runClient(in);
-                    } else {
-                        System.out.println("Admin not found");
+                        runClient(in, true);
                     }
                 case 4:
                     System.exit(0);
@@ -101,9 +101,9 @@ public class App {
 
     }
 
-    public void runClient(Scanner in) {
+    public void runClient(Scanner in, Boolean isAdmin) {
         clientController.setUser(currUser);
-        clientController.run(in);
+        clientController.run(in, isAdmin);
     }
 
     public static void main(String[] args) {

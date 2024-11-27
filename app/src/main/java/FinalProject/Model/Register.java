@@ -12,16 +12,13 @@ public class Register {
         this.db = db;
     }
 
-    public void registerUser(User user) {
+    public Boolean registerUser(User user) {
         try {
-            if (db.InsertUser(user)) {
-                System.out.println("User registered successfully");
-            } else {
-                System.out.println("User failed to register");
-            }
+            db.InsertUser(user);
+            return true;
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-
+        return false;
     }
 }

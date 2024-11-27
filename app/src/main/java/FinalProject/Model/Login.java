@@ -10,35 +10,36 @@ public class Login {
     private int id;
     private String username, password, firstName, lastName;
 
-    public Login(Database db) throws SQLException, ClassNotFoundException {
+    public Login(Database db) {
         this.db = db;
     }
 
+    /**
+     * finds a valid user
+     *
+     * @return User*/
     public User findUser(String name, String password) {
         User user = null;
         try {
             int id = db.find("user_account", "username",name);
             user = db.findUser(id);
-            if (user.getPassword().equals(password) && user != null) {
+            if (user.getPassword().equals(password)){
                 return user;
-            } else {
-                System.out.println("Incorrect Password");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         } catch (Exception e) {
-            System.out.println("Unexcpected Error in findUser");
+            System.out.println(e.getMessage());
         }
-        return null;
+        return user;
     }
 
+    /**
+     * finds a valid admin
+     *
+     * @return User*/
     public User findAdmin(String name, String password) {
         try {
             int id = db.find("user_account", "username", name);
             User user = db.findAdmin(id);
-            if (user == null) {
-                return null;
-            }
             if (user.getPassword().equals(password)) {
                 return user;
             }

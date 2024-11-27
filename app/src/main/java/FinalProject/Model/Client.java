@@ -12,6 +12,21 @@ public class Client {
     Database db;
     User user;
 
+    private String[] MaterialAttributes = {
+            "Title: ", // 0
+            "Author: ", // 1
+            "Language: ",// 2
+            "URL: ",// 3
+            "Published Date (dd/MM/yyyy): ",// 4
+            "ISBN: ",// 5
+            "Publisher: ",// 6
+            "DOI: ",// 7
+            "Journal Name: ",// 8
+            "Resolution: ",// 9
+            "Duration (Minutes): ",// 10
+            "Type (ACADEMIC, PROFFESSIONAL, WEBINAR): ",// 11
+    };
+
     public Client(Database db) {
         this.db = db;
     }
@@ -105,5 +120,22 @@ public class Client {
 
     public void setUser(User currUser) {
         user = currUser;
+    }
+
+    public Material getMaterial(int id) {
+        try {
+            return db.getMaterial(id);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public String[] getMaterialAttributes() {
+        return MaterialAttributes;
+    }
+
+    public void setMaterialAttributes(String[] materialAttributes) {
+        MaterialAttributes = materialAttributes;
     }
 }

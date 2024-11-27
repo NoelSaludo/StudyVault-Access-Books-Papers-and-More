@@ -3,7 +3,6 @@ package FinalProject.Model;
 import FinalProject.DB.Database;
 
 import java.sql.SQLException;
-import java.util.Scanner;
 
 public class Admin extends Client {
 
@@ -21,7 +20,8 @@ public class Admin extends Client {
         return false;
     }
 
-    public Boolean updateMaterial(Scanner in) {
+    public Boolean updateMaterial(int id) {
+
         return false;
     }
 }

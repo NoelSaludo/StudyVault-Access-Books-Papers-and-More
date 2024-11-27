@@ -15,12 +15,6 @@ public class LoginController {
         this.view = view;
     }
 
-    /**
-     * It returns a user that is validated to exist in the database and determines
-     * if it is a Learner or a Educator
-     * 
-     * @return User
-     */
     public User Login(Scanner in) {
         User loggingUser = null;
         while (loggingUser == null) {
@@ -44,6 +38,11 @@ public class LoginController {
         return loggingUser;
     }
 
+    /**
+     * Login function for the Admin that returns a User from the admin table
+     *
+     * @return User
+     * */
     public User LoginAdmin(Scanner in) {
         User loggingUser = null;
         while (loggingUser == null) {

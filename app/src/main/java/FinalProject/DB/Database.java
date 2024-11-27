@@ -315,7 +315,7 @@ public class Database {
      * @return Material
      * @throws SQLException if there is no similar id or column is missing
      */
-    private Material getMaterial(int id) throws SQLException {
+    public Material getMaterial(int id) throws SQLException {
         String query = """
                 SELECT * FROM material_table
                 LEFT JOIN book_table BT ON material_table.id = bt.material_id

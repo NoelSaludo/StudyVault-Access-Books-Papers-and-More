@@ -26,6 +26,10 @@ public class RegisterController {
         newUser.setUsername(in.nextLine());
         view.showPassword();
         newUser.setPassword(in.nextLine());
-        register.registerUser(newUser);
+        if(register.registerUser(newUser)) {
+            view.registerSuccess();
+        } else {
+            view.registerFailed();
+        }
     }
 }

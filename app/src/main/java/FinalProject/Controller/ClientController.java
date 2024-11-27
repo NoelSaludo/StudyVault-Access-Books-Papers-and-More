@@ -7,6 +7,7 @@ import FinalProject.Model.Data.*;
 import FinalProject.Model.Enum.Type;
 import FinalProject.View.ClientView;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -24,10 +25,25 @@ public class ClientController {
         this.isRunning = true;
     }
 
-    public void run(Scanner in) {
-        if (client.getClass().equals(Admin.class)) {
+    public void run(Scanner in, Boolean isAdmin) {
+        if (isAdmin) {
             AdminMode(in);
+        } else {
+            normalMode(in);
         }
+    }
+
+    public void setUser(User currUser) {
+        client.setUser(currUser);
+    }
+
+    public void setClient(Admin admin) {
+        this.client = admin;
+    }
+
+    // Private methods -------
+    /* === Modes === */
+    private void normalMode(Scanner in) {
         while (isRunning) {
             view.greet(client.getUsername());
             char choice = in.next().charAt(0);
@@ -54,15 +70,34 @@ public class ClientController {
         }
     }
 
-    public void setUser(User currUser) {
-        client.setUser(currUser);
+    private void AdminMode(Scanner in) {
+        while (isRunning) {
+            view.greetAdmin(client.getUsername());
+            char choice = in.nextLine().charAt(0);
+            switch (choice) {
+                case '1':
+                    findMat(in);
+                    break;
+                case '2':
+                    addMat(in);
+                    break;
+                case '3':
+                    deleteMat(in);
+                    break;
+                case '4':
+                    updateMat(in);
+                    break;
+                case 'x':
+                    isRunning = false;
+                    break;
+                default:
+
+                    break;
+            }
+        }
+
     }
 
-    public void setClient(Admin admin) {
-        this.client = admin;
-    }
-
-    // Private methods -------
     private void addToFav(Scanner in) {
         findMat(in);
         view.label("Enter material id");
@@ -106,108 +141,112 @@ public class ClientController {
 
     private void addSeminar(Scanner in) {
         Seminar seminar = new Seminar();
-        String[] labels = {"Type (ACADEMIC, PROFFESSIONAL, WEBINAR): ", "Duration (Minutes): ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
-        String[] data = getData(labels, in);
+        List<String> data;
+        data = getData(client.getMaterialAttributes(), seminar ,in);
         if (data == null) return;
-        seminar.setTitle(data[6]);
-        seminar.setAuthor(data[5]);
-        seminar.setLanguage(data[4]);
+        seminar.setTitle(data.get(0));
+        seminar.setAuthor(data.get(1));
+        seminar.setLanguage(data.get(2));
         try {
-            seminar.setPublishedDate(strToDate(data[3]));
+            seminar.setPublishedDate(strToDate(data.get(4)));
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
-        seminar.setUrl(data[2]);
-        seminar.setDuration(Integer.valueOf(data[1]));
-        try {
-            seminar.setType(Type.valueOf(data[0]));
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-        }
+        seminar.setUrl(data.get(3));
+        seminar.setType(Type.valueOf(data.get(6)));
+        seminar.setDuration(Integer.parseInt(data.get(5)));
         if (client.addSeminar(seminar)) {
-            view.label("Seminar added");
+            view.label("Seminar added\n");
         } else {
-            view.label("Seminar not added");
+            view.label("Seminar not added\n");
         }
     }
 
     private void addVideo(Scanner in) {
         Video video = new Video();
-        String[] labels = {"Resolution: ", "Duration (Minutes): ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
-        String[] data = getData(labels, in);
+        List<String> data;
+        data = getData(client.getMaterialAttributes(), video ,in);
         if (data == null) return;
-        video.setTitle(data[6]);
-        video.setAuthor(data[5]);
-        video.setLanguage(data[4]);
+        video.setTitle(data.get(0));
+        video.setAuthor(data.get(1));
+        video.setLanguage(data.get(2));
         try {
-            video.setPublishedDate(strToDate(data[3]));
+            video.setPublishedDate(strToDate(data.get(4)));
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
-        video.setUrl(data[2]);
-        video.setDuration(Integer.parseInt(data[1]));
-        video.setResolution(data[0]);
+        video.setUrl(data.get(3));
+        video.setResolution(data.get(5));
+        video.setDuration(Integer.parseInt(data.get(6)));
         if (client.addVideo(video)) {
-            view.label("Video added");
+            view.label("Video added\n");
         } else {
-            view.label("Video not added");
+            view.label("Video not added\n");
         }
     }
 
     private void addPaper(Scanner in) {
         Paper paper = new Paper();
-        String[] labels = {"Journal Name: ", "DOI: ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
-        String[] data = getData(labels, in);
+        List<String> data;
+        data = getData(client.getMaterialAttributes(), paper ,in);
         if (data == null) return;
-        paper.setTitle(data[6]);
-        paper.setAuthor(data[5]);
-        paper.setLanguage(data[4]);
+        paper.setTitle(data.get(0));
+        paper.setAuthor(data.get(1));
+        paper.setLanguage(data.get(2));
         try {
-            paper.setPublishedDate(strToDate(data[3]));
+            paper.setPublishedDate(strToDate(data.get(4)));
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
-        paper.setUrl(data[2]);
-        paper.setDOI(data[1]);
-        paper.setJournalName(data[0]);
+        paper.setUrl(data.get(3));
+        paper.setDOI(data.get(5));
+        paper.setJournalName(data.get(6));
         if (client.addPaper(paper)) {
-            view.label("Paper added");
+            view.label("Paper added\n");
         } else {
-            view.label("Paper not added");
+            view.label("Paper not added\n");
         }
     }
 
     private void addBook(Scanner in) {
         Book book = new Book();
-        String[] labels = {"Publisher: ", "ISBN: ", "URL: ", "Published Date (dd/MM/yyyy): ", "Language: ", "Author: ", "Title: "};
-        String[] data;
-        data = getData(labels, in);
+        List<String> data;
+        data = getData(client.getMaterialAttributes(), book ,in);
         if (data == null) return;
-        book.setTitle(data[6]);
-        book.setAuthor(data[5]);
-        book.setLanguage(data[4]);
+        book.setTitle(data.get(0));
+        book.setAuthor(data.get(1));
+        book.setLanguage(data.get(2));
         try {
-            book.setPublishedDate(strToDate(data[3]));
+            book.setPublishedDate(strToDate(data.get(4)));
         } catch (ParseException e) {
             System.out.println(e.getMessage());
         }
-        book.setUrl(data[2]);
-        book.setISBN(data[1]);
-        book.setPublisher(data[0]);
+        book.setUrl(data.get(3));
+        book.setISBN(data.get(5));
+        book.setPublisher(data.get(6));
         if (client.addBook(book)) {
-            view.label("Book added");
+            view.label("Book added\n");
         } else {
-            view.label("Book not added");
+            view.label("Book not added\n");
         }
     }
 
-    private String[] getData(String[] labels, Scanner in) {
-        String[] data = new String[labels.length];
-        for (int i = labels.length - 1; i >= 0; i--) {
+    private List<String> getData(String[] labels, Material material, Scanner in) {
+        List<String> data = new ArrayList<String>();
+        for (int i = 0; i < labels.length-1; i++) {
+            if (material.getClass().equals(Book.class))  {
+                if (i > 6) continue;
+            } else if (material.getClass().equals(Paper.class)) {
+                if ((i > 4 && i < 7) || (i > 8)) continue;
+            } else if (material.getClass().equals(Video.class)) {
+                if ((i > 4 && i < 9) || (i > 10)) continue;
+            } else if (material.getClass().equals(Seminar.class)) {
+                if (i > 4 && i < 10) continue;
+            }
             view.label(labels[i]);
             String input = in.nextLine();
             if (input.equals("x")) return null;
-            data[i] = input;
+            data.add(input);
         }
         return data;
     }
@@ -224,37 +263,16 @@ public class ClientController {
         view.showFoundMats(materials);
     }
 
-    private void AdminMode(Scanner in) {
-        while(isRunning) {
-            view.greetAdmin(client.getUsername());
-            char choice = in.nextLine().charAt(0);
-            switch (choice) {
-                case '1':
-                        findMat(in);
-                    break;
-                case '2':
-                        addMat(in);
-                    break;
-                case '3':
-                        deleteMat(in);
-                    break;
-                case '4':
-                        updateMat(in);
-                    break;
-                case 'x':
-                    isRunning = false;
-                    break;
-                default:
-
-                    break;
-            }
-        }
-
-    }
 
     private void deleteMat(Scanner in) {
         findMat(in);
-        int id = Integer.parseInt(in.nextLine());
+        int id = -1;
+        view.label("Enter material id: ");
+        try {
+            id = in.nextInt();
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
         Admin admin = (Admin) client;
         if (admin.deleteMaterial(id)) {
             view.label("deletion success");
@@ -264,6 +282,27 @@ public class ClientController {
     }
 
     private void updateMat(Scanner in) {
+        findMat(in);
+        int id = -1;
+        try {
+            view.label("Enter material id: ");
+            id = Integer.parseInt(in.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
+        Admin admin = (Admin) client;
+        Material material = admin.getMaterial(id);
+        Material newMat = updateMaterial(material, in);
+        if (admin.updateMaterial(id)) {
+            view.label("update success\n");
+        } else {
+            view.label("update failed\n");
+        }
 
+    }
+
+    private Material updateMaterial(Material material, Scanner in) {
+
+        return null;
     }
 }
