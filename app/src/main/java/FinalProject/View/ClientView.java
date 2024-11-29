@@ -40,7 +40,7 @@ public class ClientView {
 
     public void showFoundMats(List<Material> materials) {
         for (int i = 1; i <= materials.size(); i++) {
-            String item = String.format("[%d] %s\n",i,materials.get(i-1));
+            String item = String.format("[%d] %s\n",i,materials.get(i-1).printData());
             System.out.println(item);
         }
     }

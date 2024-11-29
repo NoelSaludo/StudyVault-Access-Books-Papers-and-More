@@ -1,6 +1,7 @@
 package FinalProject.Model.Data;
 
-import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Used for creating new study material such as books, papers, and more
@@ -24,6 +25,38 @@ public abstract class Material {
     public Material() {
     }
 
+    /**
+     * Updates the data of the material using a Scanner object
+     * @param in Scanner Object used for input
+     */
+    public void updateData(Scanner in) {
+        String[] attr = {
+                "Title: ",
+                "Author: ",
+                "Language: ",
+                "Url: ",
+                "Published Date: ",
+        };
+        String[] data = new String[5];
+        for (int i = 0; i < 5; i++) {
+            System.out.print(attr[i]);
+            String d = in.nextLine();
+            if (d.equals("exit")){
+                break;
+            }
+            data[i] = d;
+        }
+        setTitle(data[0]);
+        setAuthor(data[1]);
+        setLanguage(data[2]);
+        setUrl(data[3]);
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            formatter.parse(data[4]);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     public int getId() {
         return id;
@@ -73,10 +106,20 @@ public abstract class Material {
         this.url = url;
     }
 
-    @Override
-    public String toString() {
+    public String printData() {
         return "id: ".concat(String.valueOf(id)).concat(" | title: ").concat(title).concat(" | author: ").concat(author)
                 .concat(" | language: ").concat(language).concat(" | url: ").concat(url).concat(" | publishDate: ")
                 .concat(String.valueOf(publishedDate));
+    }
+
+    public List<String> getList() {
+            return new ArrayList<String>(Arrays.asList(
+                    String.valueOf(id),
+                    title,
+                    author,
+                    language,
+                    url,
+                    publishedDate.toString()
+            )) ;
     }
 }

@@ -270,6 +270,7 @@ public class ClientController {
         view.label("Enter material id: ");
         try {
             id = in.nextInt();
+            in.nextLine();
         } catch (NumberFormatException e) {
             System.out.println(e.getMessage());
         }
@@ -292,8 +293,12 @@ public class ClientController {
         }
         Admin admin = (Admin) client;
         Material material = admin.getMaterial(id);
-        Material newMat = updateMaterial(material, in);
-        if (admin.updateMaterial(id)) {
+        try {
+            material.updateData(in);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        if (admin.updateMaterial(material)) {
             view.label("update success\n");
         } else {
             view.label("update failed\n");
@@ -301,8 +306,4 @@ public class ClientController {
 
     }
 
-    private Material updateMaterial(Material material, Scanner in) {
-
-        return null;
-    }
 }

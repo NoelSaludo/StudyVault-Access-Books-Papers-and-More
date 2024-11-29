@@ -1,6 +1,8 @@
 package FinalProject.Model.Data;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class Paper extends Material {
     private String DOI, journalName;
@@ -16,6 +18,23 @@ public class Paper extends Material {
         super();
     }
 
+    @Override
+    public void updateData(Scanner in) {
+        super.updateData(in);
+        String[] attr = {
+                "DOI: ",
+                "Journal Name: "
+        };
+        String[] data = new String[2];
+        for (int i = 0; i < 2; i++) {
+            System.out.print(attr[i]);
+            String d = in.nextLine();
+            if (d.equals("exit")) break;
+            data[i] = d;
+        }
+        setDOI(data[0]);
+        setJournalName(data[1]);
+    }
     public String getDOI() {
         return DOI;
     }
@@ -33,7 +52,20 @@ public class Paper extends Material {
     }
 
     @Override
+    public String printData() {
+        return "Paper\n".concat(super.printData()).concat(" | DOI: ").concat(DOI).concat(" | Journal Name").concat(journalName);
+    }
+
+    @Override
     public String toString() {
-        return "Paper\n".concat(super.toString()).concat(" | DOI: ").concat(DOI).concat(" | Journal Name").concat(journalName);
+        return "paper";
+    }
+
+    @Override
+    public List<String> getList() {
+        List<String> list =  super.getList();
+        list.add(DOI);
+        list.add(journalName);
+        return list;
     }
 }

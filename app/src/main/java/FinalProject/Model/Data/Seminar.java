@@ -3,6 +3,8 @@ package FinalProject.Model.Data;
 import FinalProject.Model.Enum.Type;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 public class Seminar extends Material {
     private Type type;
@@ -16,6 +18,24 @@ public class Seminar extends Material {
 
     public Seminar() {
         super();
+    }
+
+    @Override
+    public void updateData(Scanner in) throws NumberFormatException {
+        super.updateData(in);
+        String[] attr = {
+                "Duration: ",
+                "TYPE (ACADEMIC, PROFESSIONAL, WEBINAR): "
+        };
+        String[] data = new String[2];
+        for (int i = 0; i < 2; i++) {
+            System.out.print(attr[i]);
+            String d = in.nextLine();
+            if (d.equals("exit")) break;
+            data[i] = d;
+        }
+        setDuration(Integer.parseInt(data[0]));
+        setType(Type.valueOf(data[1]));
     }
 
     public Type getType() {
@@ -35,8 +55,21 @@ public class Seminar extends Material {
     }
 
     @Override
-    public String toString() {
-        return "Seminar\n".concat(super.toString()).concat(" | Type: ").
+    public String printData() {
+        return "Seminar\n".concat(super.printData()).concat(" | Type: ").
                 concat(type.toString()).concat(" | Duration: ").concat(String.valueOf(duration));
+    }
+
+    @Override
+    public String toString() {
+        return "seminar";
+    }
+
+    @Override
+    public List<String> getList() {
+        List<String> list = super.getList();
+        list.add(String.valueOf(duration));
+        list.add(type.toString());
+        return list;
     }
 }

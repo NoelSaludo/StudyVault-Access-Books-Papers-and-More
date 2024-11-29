@@ -22,9 +22,9 @@ public class RegisterController {
         newUser.setFirstName(in.nextLine());
         view.showLastname();
         newUser.setLastName(in.nextLine());
-        view.showUsername();
+        view.getUsernameLabel();
         newUser.setUsername(in.nextLine());
-        view.showPassword();
+        view.getPasswordLabel();
         newUser.setPassword(in.nextLine());
         if(register.registerUser(newUser)) {
             view.registerSuccess();

@@ -22,13 +22,15 @@ public class Database {
 
     /* ===== Public methods ===== */
     // Finding methods ------------
+
     /**
      * A simple find function that returns the id
-     * @param table database table
+     *
+     * @param table  database table
      * @param column column where to search
-     * @param name name of the item
+     * @param name   name of the item
      * @return id
-     * */
+     */
     public int find(String table, String column, String name) throws SQLException {
         ResultSet rs;
         String query = "SELECT * FROM " + table + " WHERE " + column + " = ? ";
@@ -43,9 +45,10 @@ public class Database {
 
     /**
      * finds a user from the database using and id
+     *
      * @param id id of the user
      * @return User
-     * */
+     */
     public User findUser(int id) throws SQLException {
         String query = "SELECT * FROM user_account WHERE id = ?";
         PreparedStatement stm = con.prepareStatement(query);
@@ -67,9 +70,10 @@ public class Database {
 
     /**
      * find materials that contains the substring from the material_table
+     *
      * @param name substring to search for
      * @return List of Material
-     * */
+     */
     public List<Material> findMaterial(String name) throws SQLException {
         List<Material> materials = new ArrayList<>();
         String query = "SELECT * FROM material_table WHERE material_title LIKE ?";
@@ -86,8 +90,9 @@ public class Database {
 
     /**
      * deletes a material using the id
+     *
      * @param id material's id
-     * */
+     */
     public void deleteMaterial(int id) throws SQLException {
         String query = "DELETE FROM material_table WHERE material_table.id = ?";
         PreparedStatement stm = con.prepareStatement(query);
@@ -97,6 +102,7 @@ public class Database {
 
     /**
      * finds an admin from the database
+     *
      * @param id user id of the admin
      * @return Admin
      * @throws SQLException if it did not find a user with the same id
@@ -122,6 +128,7 @@ public class Database {
 
     /**
      * returns all the material with from the favorite table with the corresponding user id
+     *
      * @param id user id
      * @return List of Favorite material
      * @throws SQLException if the user id was not found
@@ -164,10 +171,11 @@ public class Database {
 
     /**
      * Adds a material to the material_table
-     * @param Title title of the material
-     * @param Author author of the material
-     * @param language language the material uses
-     * @param url link of the material
+     *
+     * @param Title         title of the material
+     * @param Author        author of the material
+     * @param language      language the material uses
+     * @param url           link of the material
      * @param publishedDate published date of the material
      * @throws SQLException if the insertion failed
      */
@@ -184,8 +192,9 @@ public class Database {
 
     /**
      * Adds a book to the book_table
-     * @param id material_id of the book
-     * @param isbn international standard book number
+     *
+     * @param id        material_id of the book
+     * @param isbn      international standard book number
      * @param publisher publisher of the book
      * @throws SQLException if the insertion failed
      */
@@ -200,8 +209,9 @@ public class Database {
 
     /**
      * adds paper to the paper_table
-     * @param id material_id of the paper
-     * @param doi digital object identifier
+     *
+     * @param id          material_id of the paper
+     * @param doi         digital object identifier
      * @param journalName journal name where to paper is found
      * @throws SQLException if the insertion failed
      */
@@ -216,8 +226,9 @@ public class Database {
 
     /**
      * adds video to the video_table
-     * @param id material_id of the video
-     * @param duration duration of the video in minutes
+     *
+     * @param id         material_id of the video
+     * @param duration   duration of the video in minutes
      * @param resolution the resolution of the video
      * @throws SQLException if the insertion failed
      */
@@ -232,8 +243,9 @@ public class Database {
 
     /**
      * adds a seminar to the seminar_table
-     * @param id material_id of the seminar
-     * @param type ACADEMIC, PROFESSIONAL, WEBINAR
+     *
+     * @param id       material_id of the seminar
+     * @param type     ACADEMIC, PROFESSIONAL, WEBINAR
      * @param duration duration of the seminar in hours
      * @throws SQLException if the insertion fail
      */
@@ -248,7 +260,8 @@ public class Database {
 
     /**
      * Add a favorite material using the user_id and material_id
-     * @param id material_id
+     *
+     * @param id     material_id
      * @param userID user_id
      * @throws SQLException if the insertion fail
      */
@@ -264,6 +277,7 @@ public class Database {
 
     /**
      * determines which material to return
+     *
      * @param rs the result of a query
      * @return A material
      * @throws SQLException if there is a missing column
@@ -311,6 +325,7 @@ public class Database {
 
     /**
      * Returns the material found from all the table that corresponds with the material_table
+     *
      * @param id material_id
      * @return Material
      * @throws SQLException if there is no similar id or column is missing
@@ -330,4 +345,56 @@ public class Database {
         return whichMaterial(rs);
     }
 
+    /**
+     * Updates a row in the table
+     *
+     * @param list list of data
+     * @param subtable subtable of that corresponds to the material derived class
+     * @throws SQLException if the column is not found or the row
+     */
+    public void updateMaterial(List<String> list, String subtable) throws SQLException {
+        String f_query = "UPDATE material_table SET material_title = ?, material_author = ?, material_language = ?, material_url = ? , material_published_date = ? WHERE id = ?";
+        String s_query = "UPDATE " + subtable + "_table SET ";
+        PreparedStatement stm = con.prepareStatement(f_query);
+        stm.setString(1, list.get(1));
+        stm.setString(2, list.get(2));
+        stm.setString(3, list.get(3));
+        stm.setString(4, list.get(4));
+        stm.setDate(5, Date.valueOf(list.get(5)));
+        stm.setInt(6, Integer.parseInt(list.get(0)));
+        stm.execute();
+        switch (subtable) {
+            case "book" -> {
+                s_query += "isbn = ?, publisher = ? WHERE material_id = ?";
+                stm = con.prepareStatement(s_query);
+                stm.setString(1, list.get(6));
+                stm.setString(2, list.get(7));
+                stm.setInt(3, Integer.parseInt(list.get(0)));
+            }
+            case "paper" -> {
+                s_query += "doi = ?, journal_name = ? WHERE material_id = ?";
+                stm = con.prepareStatement(s_query);
+                stm.setString(1, list.get(6));
+                stm.setString(2, list.get(7));
+                stm.setInt(3, Integer.parseInt(list.get(0)));
+            }
+            case "video" -> {
+                s_query += "duration = ?, resolution = ? WHERE material_id = ?";
+                stm = con.prepareStatement(s_query);
+                stm.setInt(1, Integer.parseInt(list.get(6)));
+                stm.setString(2, list.get(7));
+                stm.setInt(3, Integer.parseInt(list.get(0)));
+                stm.execute();
+            }
+            case "seminar" -> {
+                s_query += "duration = ?, type = ? WHERE material_id = ?";
+                stm = con.prepareStatement(s_query);
+                stm.setInt(1, Integer.parseInt(list.get(6)));
+                stm.setString(2, list.get(7));
+                stm.setInt(3, Integer.parseInt(list.get(0)));
+                stm.execute();
+            }
+        }
+
+    }
 }

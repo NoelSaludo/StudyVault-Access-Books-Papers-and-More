@@ -21,7 +21,7 @@ public class App {
             [1] Login
             [2] Register
             [3] Admin
-            [4] Exit
+            [x] Exit
             Enter choice:""";
     // TODO rename testdb to FinalProject later
     String url = "jdbc:mysql://localhost:3306/testdb", user = "FinalProject", password = "FinalProject123";
@@ -71,29 +71,30 @@ public class App {
         Scanner in = new Scanner(System.in);
         while (currUser == null) {
             System.out.print(greet);
-            int choice = in.nextInt();
+            char choice = in.next().charAt(0);
             in.nextLine();
 
             switch (choice) {
-                case 1:
+                case '1':
                     currUser = loginController.Login(in);
                     if (currUser != null) {
                         runClient(in, false);
                     }
                     break;
-                case 2:
+                case '2':
                     regController.Register(in);
                     break;
-                case 3:
+                case '3':
                     currUser = loginController.LoginAdmin(in);
                     clientController.setClient(admin);
                     if (currUser != null) {
                         runClient(in, true);
                     }
-                case 4:
+                case 'x':
                     System.exit(0);
                     break;
                 default:
+                    System.out.println("Invalid choice");
                     break;
             }
         }

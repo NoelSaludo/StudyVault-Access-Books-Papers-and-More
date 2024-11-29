@@ -1,6 +1,7 @@
 package FinalProject.Model;
 
 import FinalProject.DB.Database;
+import FinalProject.Model.Data.Material;
 
 import java.sql.SQLException;
 
@@ -20,8 +21,16 @@ public class Admin extends Client {
         return false;
     }
 
-    public Boolean updateMaterial(int id) {
-
+    public Boolean updateMaterial(Material mat) {
+        try{
+            db.updateMaterial(
+                    mat.getList(),
+                    mat.toString()
+            );
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
         return false;
     }
 }
