@@ -5,6 +5,7 @@ import FinalProject.Model.Admin;
 import FinalProject.Model.Client;
 import FinalProject.Model.Data.*;
 import FinalProject.Model.Enum.Type;
+import FinalProject.Utils.DataCollector;
 import FinalProject.View.ClientView;
 
 import java.util.ArrayList;
@@ -142,7 +143,7 @@ public class ClientController {
     private void addSeminar(Scanner in) {
         Seminar seminar = new Seminar();
         List<String> data;
-        data = getData(client.getMaterialAttributes(), seminar ,in);
+        data = new DataCollector().getData(client.getMaterialAttributes(), seminar ,in);
         if (data == null) return;
         seminar.setTitle(data.get(0));
         seminar.setAuthor(data.get(1));
@@ -165,7 +166,7 @@ public class ClientController {
     private void addVideo(Scanner in) {
         Video video = new Video();
         List<String> data;
-        data = getData(client.getMaterialAttributes(), video ,in);
+        data = new DataCollector().getData(client.getMaterialAttributes(), video ,in);
         if (data == null) return;
         video.setTitle(data.get(0));
         video.setAuthor(data.get(1));
@@ -188,7 +189,7 @@ public class ClientController {
     private void addPaper(Scanner in) {
         Paper paper = new Paper();
         List<String> data;
-        data = getData(client.getMaterialAttributes(), paper ,in);
+        data = new DataCollector().getData(client.getMaterialAttributes(), paper ,in);
         if (data == null) return;
         paper.setTitle(data.get(0));
         paper.setAuthor(data.get(1));
@@ -211,7 +212,7 @@ public class ClientController {
     private void addBook(Scanner in) {
         Book book = new Book();
         List<String> data;
-        data = getData(client.getMaterialAttributes(), book ,in);
+        data = new DataCollector().getData(client.getMaterialAttributes(), book ,in);
         if (data == null) return;
         book.setTitle(data.get(0));
         book.setAuthor(data.get(1));
@@ -231,25 +232,6 @@ public class ClientController {
         }
     }
 
-    private List<String> getData(String[] labels, Material material, Scanner in) {
-        List<String> data = new ArrayList<String>();
-        for (int i = 0; i < labels.length-1; i++) {
-            if (material.getClass().equals(Book.class))  {
-                if (i > 6) continue;
-            } else if (material.getClass().equals(Paper.class)) {
-                if ((i > 4 && i < 7) || (i > 8)) continue;
-            } else if (material.getClass().equals(Video.class)) {
-                if ((i > 4 && i < 9) || (i > 10)) continue;
-            } else if (material.getClass().equals(Seminar.class)) {
-                if (i > 4 && i < 10) continue;
-            }
-            view.label(labels[i]);
-            String input = in.nextLine();
-            if (input.equals("x")) return null;
-            data.add(input);
-        }
-        return data;
-    }
 
     private Date strToDate(String date) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

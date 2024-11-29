@@ -1,6 +1,7 @@
 package FinalProject.Model.Data;
 
 import FinalProject.Model.Enum.Type;
+import FinalProject.Utils.DataCollector;
 
 import java.util.Date;
 import java.util.List;
@@ -27,13 +28,7 @@ public class Seminar extends Material {
                 "Duration: ",
                 "TYPE (ACADEMIC, PROFESSIONAL, WEBINAR): "
         };
-        String[] data = new String[2];
-        for (int i = 0; i < 2; i++) {
-            System.out.print(attr[i]);
-            String d = in.nextLine();
-            if (d.equals("exit")) break;
-            data[i] = d;
-        }
+        String[] data = new DataCollector().getData(attr, in);
         setDuration(Integer.parseInt(data[0]));
         setType(Type.valueOf(data[1]));
     }

@@ -86,8 +86,8 @@ public class App {
                     break;
                 case '3':
                     currUser = loginController.LoginAdmin(in);
-                    clientController.setClient(admin);
                     if (currUser != null) {
+                        clientController.setClient(admin);
                         runClient(in, true);
                     }
                 case 'x':

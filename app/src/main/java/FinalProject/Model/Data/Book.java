@@ -1,5 +1,7 @@
 package FinalProject.Model.Data;
 
+import FinalProject.Utils.DataCollector;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -25,13 +27,7 @@ public class Book extends Material {
                 "ISBN: ",
                 "publisher: "
         };
-        String[] data = new String[2];
-        for (int i = 0; i < 2; i++) {
-            System.out.print(attr[i]);
-            String d = in.nextLine();
-            if (d.equals("exit")) break;
-            data[i] = d;
-        }
+        String[] data = new DataCollector().getData(attr, in);
         setISBN(data[0]);
         setPublisher(data[1]);
     }

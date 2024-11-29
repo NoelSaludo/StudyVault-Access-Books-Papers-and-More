@@ -1,5 +1,7 @@
 package FinalProject.Model.Data;
 
+import FinalProject.Utils.DataCollector;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -37,15 +39,7 @@ public abstract class Material {
                 "Url: ",
                 "Published Date: ",
         };
-        String[] data = new String[5];
-        for (int i = 0; i < 5; i++) {
-            System.out.print(attr[i]);
-            String d = in.nextLine();
-            if (d.equals("exit")){
-                break;
-            }
-            data[i] = d;
-        }
+        String[] data = new DataCollector().getData(attr, in);
         setTitle(data[0]);
         setAuthor(data[1]);
         setLanguage(data[2]);

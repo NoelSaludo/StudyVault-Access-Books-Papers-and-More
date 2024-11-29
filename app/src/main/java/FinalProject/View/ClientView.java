@@ -46,7 +46,7 @@ public class ClientView {
     }
 
     public void addMatStart() {
-        System.out.println("To add new materials you just simply have to fill out the \nnecessary information of the materials you wish to upload");
+        System.out.println("To add new materials you just simply have to fill out the \nnecessary information of the materials you wish to upload\nEnter 0 to stop anytime");
     }
 
     public void matType() {
