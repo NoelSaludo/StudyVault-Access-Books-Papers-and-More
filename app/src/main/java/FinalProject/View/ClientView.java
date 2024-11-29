@@ -35,7 +35,7 @@ public class ClientView {
 
     public void askForTitle() {
         System.out.println("Find your needed material by giving the exact name of the material ");
-        System.out.println("Enter title of material");
+        System.out.println("Enter title of material (enter 0 to cancel or enter nothing to retrieve everything): ");
     }
 
     public void showFoundMats(List<Material> materials) {

@@ -4,15 +4,15 @@ public class RegisterView extends LoginView {
     String greetings;
 
     public void showGreetings() {
-        System.out.println("Registering a new User");
+        System.out.println("Registering a new User (press 0 to cancel)");
     }
 
-    public void showFirstname() {
-        System.out.print("Firstname: ");
+    public String getFirstNameLabel() {
+        return "Firstname: ";
     }
 
-    public void showLastname() {
-        System.out.print("Lastname: ");
+    public String getLastNameLabel() {
+        return "Lastname: ";
     }
 
     public void registerSuccess() {

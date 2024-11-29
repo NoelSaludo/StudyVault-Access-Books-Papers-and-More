@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import FinalProject.Model.Register;
 import FinalProject.Model.Data.User;
+import FinalProject.Utils.DataCollector;
 import FinalProject.View.RegisterView;
 
 public class RegisterController {
@@ -17,16 +18,20 @@ public class RegisterController {
 
     public void Register(Scanner in) {
         User newUser = new User();
+        String[] labels = {
+                view.getUsernameLabel(),
+                view.getPasswordLabel(),
+                view.getFirstNameLabel(),
+                view.getLastNameLabel()
+        };
         view.showGreetings();
-        view.showFirstname();
-        newUser.setFirstName(in.nextLine());
-        view.showLastname();
-        newUser.setLastName(in.nextLine());
-        view.getUsernameLabel();
-        newUser.setUsername(in.nextLine());
-        view.getPasswordLabel();
-        newUser.setPassword(in.nextLine());
-        if(register.registerUser(newUser)) {
+        String[] data = new DataCollector().getData(labels, in);
+        if (data == null) return;
+        newUser.setFirstName(data[2]);
+        newUser.setLastName(data[3]);
+        newUser.setUsername(data[0]);
+        newUser.setPassword(data[1]);
+        if (register.registerUser(newUser)) {
             view.registerSuccess();
         } else {
             view.registerFailed();
