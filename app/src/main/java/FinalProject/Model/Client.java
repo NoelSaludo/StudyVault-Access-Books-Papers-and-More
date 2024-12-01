@@ -22,7 +22,7 @@ public class Client {
             "Publisher: ",// 6
             "DOI: ",// 7
             "Journal Name: ",// 8
-            "Resolution: ",// 9
+            "Platform: ",// 9
             "Duration (Minutes): ",// 10
             "Type (ACADEMIC, PROFFESSIONAL, WEBINAR): ",// 11
     };
@@ -73,7 +73,7 @@ public class Client {
         try {
             db.addMaterial(video.getTitle(), video.getAuthor(), video.getLanguage(), video.getUrl(), new Date(video.getPublishedDate().getTime()));
             video.setId(db.find("material_table", "material_title", video.getTitle()));
-            db.addVideo(video.getId(), video.getDuration(), video.getResolution());
+            db.addVideo(video.getId(), video.getDuration(), video.getPlatform());
             return true;
         } catch (SQLException | NullPointerException e) {
             System.out.println(e.getMessage());

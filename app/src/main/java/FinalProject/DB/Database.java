@@ -252,15 +252,15 @@ public class Database {
      *
      * @param id         material_id of the video
      * @param duration   duration of the video in minutes
-     * @param resolution the resolution of the video
+     * @param platform the platform of the video
      * @throws SQLException if the insertion failed
      */
-    public void addVideo(int id, int duration, String resolution) throws SQLException {
-        String query = "INSERT INTO video_table(material_id,duration,resolution) VALUES (?,?,?)";
+    public void addVideo(int id, int duration, String platform) throws SQLException {
+        String query = "INSERT INTO video_table(material_id,duration,platform) VALUES (?,?,?)";
         PreparedStatement stm = con.prepareStatement(query);
         stm.setInt(1, id);
         stm.setInt(2, duration);
-        stm.setString(3, resolution);
+        stm.setString(3, platform);
         stm.execute();
     }
 
@@ -330,7 +330,7 @@ public class Database {
                 stm.setInt(3, Integer.parseInt(list.get(0)));
             }
             case "video" -> {
-                s_query += "duration = ?, resolution = ? WHERE material_id = ?";
+                s_query += "duration = ?, platform = ? WHERE material_id = ?";
                 stm = con.prepareStatement(s_query);
                 stm.setInt(1, Integer.parseInt(list.get(6)));
                 stm.setString(2, list.get(7));
@@ -382,7 +382,7 @@ public class Database {
                 material = new Video(
                         mat_id, title, author, language, url, published_date,
                         rs.getInt("duration"),
-                        rs.getString("resolution")
+                        rs.getString("platform")
                 );
             } else if (rs.getInt("seminar_id") != 0) {
                 material = new Seminar(

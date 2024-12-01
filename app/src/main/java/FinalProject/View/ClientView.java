@@ -12,7 +12,7 @@ public class ClientView {
                 [3] Add Favorite
                 [4] Show Favorites
                 [x] Exit""";
-        System.out.println("Welcome to StudyVault user "+username);
+        System.out.println("Welcome to StudyVault "+username);
         System.out.println(menu);
         System.out.println("Enter your choice: ");
     }
@@ -24,7 +24,7 @@ public class ClientView {
                 [3] Delete Material
                 [4] Update Material
                 [x] Exit""";
-        System.out.println("Welcome to StudyVault admin "+username);
+        System.out.println("Welcome to StudyVault "+username);
         System.out.println(menu);
         System.out.println("Enter your choice: ");
     }

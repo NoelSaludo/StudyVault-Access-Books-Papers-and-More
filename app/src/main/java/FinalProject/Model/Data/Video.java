@@ -10,12 +10,12 @@ import java.util.Scanner;
 
 public class Video extends Material {
     private int duration;
-    private String resolution;
+    private String platform;
 
-    public Video(int id, String title, String author, String language, String url, Date publishedDate, int duration, String resolution) {
+    public Video(int id, String title, String author, String language, String url, Date publishedDate, int duration, String platform) {
         super(id, title, author, language, url, publishedDate);
         this.duration = duration;
-        this.resolution = resolution;
+        this.platform = platform;
     }
 
     public Video() {
@@ -27,11 +27,11 @@ public class Video extends Material {
         super.updateData(in);
         String[] attr = {
                 "Duration: ",
-                "Resolution: "
+                "Platform: "
         };
         String[] data = new DataCollector().getData(attr, in);
         setDuration(Integer.parseInt(data[0]));
-        setResolution(data[1]);
+        setPlatform(data[1]);
     }
 
     public int getDuration() {
@@ -42,18 +42,18 @@ public class Video extends Material {
         this.duration = duration;
     }
 
-    public String getResolution() {
-        return resolution;
+    public String getPlatform() {
+        return platform;
     }
 
-    public void setResolution(String resolution) {
-        this.resolution = resolution;
+    public void setPlatform(String platform) {
+        this.platform = platform;
     }
 
     @Override
     public String printData() {
         return "Video\n".concat(super.printData()).concat(" | duration: ")
-                .concat(String.valueOf(duration)).concat(" | resolution: ").concat(resolution);
+                .concat(String.valueOf(duration)).concat(" | Platform: ").concat(platform);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class Video extends Material {
     public List<String> getList() {
         List<String> list =  super.getList();
         list.add(String.valueOf(duration));
-        list.add(resolution);
+        list.add(platform);
         return list;
     }
 }

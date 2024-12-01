@@ -177,7 +177,7 @@ public class ClientController {
             System.out.println(e.getMessage());
         }
         video.setUrl(data.get(3));
-        video.setResolution(data.get(5));
+        video.setPlatform(data.get(5));
         video.setDuration(Integer.parseInt(data.get(6)));
         if (client.addVideo(video)) {
             view.label("Video added\n");
