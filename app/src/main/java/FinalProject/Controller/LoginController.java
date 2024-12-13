@@ -23,7 +23,6 @@ public class LoginController {
     public User Login(Scanner in) {
         DataCollector dc = new DataCollector();
         String[] labels = {view.getUsernameLabel(), view.getPasswordLabel()};
-        view.cancelOption();
         String[] data = dc.getData(labels,in);
         if (data == null) return null;
         user = login.findUser(data[0], data[1]);
@@ -38,7 +37,6 @@ public class LoginController {
     public User LoginAdmin(Scanner in) {
         DataCollector dc = new DataCollector();
         String[] labels = {view.getUsernameLabel(), view.getPasswordLabel()};
-        view.cancelOption();
         String[] data = dc.getData(labels,in);
         if (data == null) return null;
         user = login.findAdmin(data[0], data[1]);

@@ -9,10 +9,6 @@ public class LoginView {
         return "Password: ";
     }
 
-    public void cancelOption() {
-        System.out.println("Enter 0 to cancel login");
-    }
-
     public void errorMessage() {
         System.out.println("Login error try again");
         System.out.println("User not found");

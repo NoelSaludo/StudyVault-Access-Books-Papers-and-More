@@ -101,13 +101,13 @@ public class ClientController {
 
     private void addToFav(Scanner in) {
         findMat(in);
-        view.label("Enter material id");
+        view.label("Enter material id: ");
         int fav = in.nextInt();
         client.addFavorite(fav);
     }
 
     private void showFavorites() {
-        view.label("favorites:");
+        view.label("favorites:\n");
         view.showFoundMats(client.getFavorites(client.getID()));
     }
 

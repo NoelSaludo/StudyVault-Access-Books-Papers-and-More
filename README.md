@@ -24,19 +24,15 @@ But thanks with OOP the program can grow easily thanks to it being modular.
 
 - **Inheritance**
 
-  In the package `FinalProject.Model.Data`, certain classes are designed to extend the functionalities of the Material
-  class in order to minimize redundancy and improve code efficiency. Additionally, there are specific classes, such as the
-  LoginView class, which serve as a foundation for the RegisterView class, thereby allowing the latter to inherit
-  properties and methods while providing its own unique features. This structure promotes reusability and maintains a
-  cleaner, more organized codebase
-
+  The program uses inheritance to allow classes to inherit properties and methods from other classes.
+  This allows for the program to be more modular and easier to scale. For example the `Material` class
+  is inherited by the `Book` class and `Paper` class. This allows the `Book` and `Paper` class to have 
+  the same properties and methods as the `Material` class.
 - **Polymorphism**
 
-  Classes such as Book, Paper, and others that inherit from the Material class
-  override the `toString()`, `printData()`, and `updateData(Scanner in)` methods 
-  to suit their specific functionalities. These functions can adapt and change based on the required operations.
-  Polymorphism allows the developer to use the same function but get a different results
- 
+  The program uses polymorphism to allow classes to have different implementations of the same method.
+  An example of this is the `Material` class has a function that returns a string representation of the class.
+  This allows the subclasses to override the method and return a different and more specific string representation.
 - **Abstraction**
 
   The `Material` class is an abstract class that can be used by inheriting it.

@@ -15,6 +15,7 @@ public class DataCollector {
      * @return null if the in finds "0" and data if the input is complete
      */
     public String[] getData(String[] labels, Scanner in) {
+        System.out.println("Enter 0 to cancel");
         String[] data = new String[labels.length];
         for (int i = 0; i < data.length; i++) {
             System.out.print(labels[i]);
@@ -33,6 +34,7 @@ public class DataCollector {
      */
     public List<String> getData(String[] labels, Material material, Scanner in) {
         List<String> data = new ArrayList<String>();
+        System.out.println("Enter 0 to cancel");
         for (int i = 0; i < labels.length-1; i++) {
 
             // this mess sorts out the materials
