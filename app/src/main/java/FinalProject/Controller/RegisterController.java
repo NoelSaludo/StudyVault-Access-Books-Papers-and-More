@@ -1,6 +1,7 @@
 package FinalProject.Controller;
 
 import java.util.Scanner;
+import java.util.regex.Pattern;
 
 import FinalProject.Model.Register;
 import FinalProject.Model.Data.User;
@@ -31,6 +32,11 @@ public class RegisterController {
         newUser.setLastName(data[3]);
         newUser.setUsername(data[0]);
         newUser.setPassword(data[1]);
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%^&*()_+={}:;\"'<>,.?/\\~`|-]{8,15}$";
+        if (!newUser.getPassword().matches(regex)) {
+            view.registerFailed();
+            return;
+        }
         if (register.registerUser(newUser)) {
             view.registerSuccess();
         } else {

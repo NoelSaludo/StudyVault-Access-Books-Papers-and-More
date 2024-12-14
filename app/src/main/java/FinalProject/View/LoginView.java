@@ -6,7 +6,7 @@ public class LoginView {
     }
 
     public String getPasswordLabel() {
-        return "Password: ";
+        return "Password:";
     }
 
     public void errorMessage() {

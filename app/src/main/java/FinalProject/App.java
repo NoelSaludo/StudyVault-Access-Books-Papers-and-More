@@ -24,7 +24,7 @@ public class App {
             [x] Exit
             Enter choice:""";
     // TODO rename testdb to FinalProject later
-    String url = "jdbc:mysql://localhost:3306/FinalProject", user = "FinalProject", password = "FinalProject123";
+    String url = "jdbc:mysql://localhost:3306/finalproject", user = "FinalProject", password = "FinalProject123";
     Database db;
 
     // Login classes

@@ -68,7 +68,7 @@ CREATE TABLE paper_table(
 
 CREATE TABLE favorites
 (
-    id          INT NOT NULL UNIQUE,
+    id          INT NOT NULL UNIQUE AUTO_INCREMENT,
     user_id     INT NOT NULL,
     material_id INT NOT NULL UNIQUE,
     PRIMARY KEY (id),
@@ -110,6 +110,7 @@ CREATE TABLE seminar_table
 INSERT INTO user_account
 (username, password, first_name, last_name) VALUE
                                                 ('admin', 'admin123', 'admin', 'admin');
+INSERT INTO admin (user_id) VALUE (1);
 INSERT INTO material_table
 (id ,material_title, material_author, material_language, material_url, material_published_date)
 VALUES

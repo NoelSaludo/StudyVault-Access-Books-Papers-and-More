@@ -23,4 +23,8 @@ public class RegisterView extends LoginView {
         System.out.println("Failed to register");
     }
 
+    @Override
+    public String getPasswordLabel() {
+        return super.getPasswordLabel() +"\n(must contatin a Upper Case Letter, Lower Case Letter, and number and any of this symbols \n(!@#$%^&*()_+={}:;\"'<>,.?/\\~|-`)): ";
+    }
 }

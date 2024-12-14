@@ -64,6 +64,7 @@ public class ClientController {
                     break;
                 case 'x':
                     isRunning = false;
+                    break;
                 default:
                     view.incorrectInput();
                     break;

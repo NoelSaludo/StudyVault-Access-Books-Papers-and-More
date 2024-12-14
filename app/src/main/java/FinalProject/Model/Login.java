@@ -22,11 +22,13 @@ public class Login {
         User user = null;
         try {
             int id = db.find("user_account", "username",name);
-            user = db.findUser(id);
-            if (user.getPassword().equals(password)){
-                return user;
+            if (id != -1) {
+                user = db.findUser(id);
+                if (user.getPassword().equals(password)){
+                    return user;
+                }
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return user;

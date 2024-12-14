@@ -26,6 +26,9 @@ public class LoginController {
         String[] data = dc.getData(labels,in);
         if (data == null) return null;
         user = login.findUser(data[0], data[1]);
+        if (user == null) {
+            view.label("User not found\n");
+        }
         return user;
     }
 

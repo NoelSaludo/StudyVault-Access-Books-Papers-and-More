@@ -1,7 +1,5 @@
 package FinalProject.Model.Data;
 
-import java.util.List;
-
 public class User {
     private int id;
     private String firstName;
