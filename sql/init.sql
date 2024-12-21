@@ -54,11 +54,12 @@ CREATE TABLE book_table
             ON DELETE CASCADE
 );
 
-CREATE TABLE paper_table(
-    paper_id    INT AUTO_INCREMENT  NOT NULL,
-    material_id INT UNIQUE          NOT NULL,
-    doi        VARCHAR(255) UNIQUE NOT NULL,
-    journal_name   VARCHAR(255)        NOT NULL,
+CREATE TABLE paper_table
+(
+    paper_id     INT AUTO_INCREMENT  NOT NULL,
+    material_id  INT UNIQUE          NOT NULL,
+    doi          VARCHAR(255) UNIQUE NOT NULL,
+    journal_name VARCHAR(255)        NOT NULL,
     PRIMARY KEY (paper_id),
     CONSTRAINT paper_table_ibfk_1
         FOREIGN KEY (material_id)
@@ -85,7 +86,7 @@ CREATE TABLE video_table
     video_id    INT AUTO_INCREMENT NOT NULL,
     material_id INT                NOT NULL UNIQUE,
     duration    INT                NOT NULL,
-    Platform  VARCHAR(50)        NOT NULL,
+    Platform    VARCHAR(50)        NOT NULL,
     PRIMARY KEY (video_id),
     CONSTRAINT videos_ibfk_1
         FOREIGN KEY (material_id) REFERENCES material_table (id)
@@ -108,25 +109,44 @@ CREATE TABLE seminar_table
 
 
 INSERT INTO user_account
-(username, password, first_name, last_name) VALUE
-                                                ('admin', 'admin123', 'admin', 'admin');
+    (username, password, first_name, last_name) VALUE
+    ('admin', 'admin123', 'admin', 'admin');
 INSERT INTO admin (user_id) VALUE (1);
 INSERT INTO material_table
-(id ,material_title, material_author, material_language, material_url, material_published_date)
-VALUES
-    (1,'Discrete Math With Coding', 'Hugo G. Junghem', 'english', 'https://libgen.is/book/index.php?md5=87EAAC01681670BCEFA28C2FE443E8B7', '2023-08-21'),
-    (2,'Improving computer-marked assessment. What are the limits?', 'Sally Jordan', 'english', 'https://youtu.be/FEdEIi-uHYU?si=5vDBBJScncHbg9iO','2015-10-05'),
-    (3, 'Contributing to success in an introductory computer science course: a study of twelve factors', 'Brenda Cantwell Wilson', 'english', 'https://dl.acm.org/doi/abs/10.1145/366413.364581', '2001-02-01'),
-    (4, 'OpenGL Course - Create 3D and 2D Graphics With C++', 'Victor Gordan', 'englihs', 'https://www.youtube.com/watch?v=45MIykWJ-C4', '2021-04-27');
+(id, material_title, material_author, material_language, material_url, material_published_date)
+VALUES (1,
+        'Discrete Math With Coding',
+        'Hugo G. Junghem',
+        'english',
+        'https://libgen.is/book/index.php?md5=87EAAC01681670BCEFA28C2FE443E8B7',
+        '2023-08-21'),
+       (2,
+        'Improving computer-marked assessment. What are the limits?',
+         'Sally Jordan',
+          'english',
+        'https://youtu.be/FEdEIi-uHYU?si=5vDBBJScncHbg9iO',
+         '2015-10-05'),
+       (3,
+        'Contributing to success in an introductory computer science course: a study of twelve factors',
+        'Brenda Cantwell Wilson',
+        'english',
+         'https://dl.acm.org/doi/abs/10.1145/366413.364581',
+          '2001-02-01'),
+       (4,
+        'OpenGL Course - Create 3D and 2D Graphics With C++',
+         'Victor Gordan',
+          'english',
+        'https://www.youtube.com/watch?v=45MIykWJ-C4',
+         '2021-04-27');
 
 INSERT INTO book_table (book_id, material_id, isbn, publisher) VALUE
-(1, 1, '	9781032398525', 'CRC Press');
+    (1, 1, '	9781032398525', 'CRC Press');
 
 INSERT INTO video_table (material_id, duration, Platform) VALUE
-(4, 106, 'Youtube');
+    (4, 106, 'Youtube');
 
 INSERT INTO paper_table (material_id, doi, journal_name) VALUE
-(3, '10.1145/366413.364581', 'ACM SIGCSE Bulletin, Volume 33, Issue 1');
+    (3, '10.1145/366413.364581', 'ACM SIGCSE Bulletin, Volume 33, Issue 1');
 
 INSERT INTO seminar_table (material_id, type, duration) VALUE
     (2, 'ACADEMIC', 55);
